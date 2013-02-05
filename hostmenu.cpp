@@ -57,6 +57,7 @@ HostMenu::CloseDialog
 =====================
 */
 void HostMenu::CloseDialog( void ) {
+	clear();
 	curs_set(1);
 	echo();
 	endwin();			/* End curses mode 		*/
@@ -79,9 +80,9 @@ int HostMenu::Loop( void ) {
 		switch( pressed_key ) {
 			case KEY_UP: OneStepUp(); break;
 			case KEY_DOWN: OneStepDown(); break;
-			case 'q': return 0x271A;
-			case 'r': return 0x2724;
-			case KEY_RETURN: return currentIndex;
+			case 'q': SetStatuslabel( ( char* ) "Quiting..." ); return 0x271A;
+			case 'r': SetStatuslabel( ( char* ) "Refreshing..." ); return 0x2724;
+			case KEY_RETURN: SetStatuslabel( ( char* ) "Connecting..." ); return currentIndex;
 			default: refresh(); break;
 		}
 
@@ -98,6 +99,7 @@ void HostMenu::Initialize( void ) {
 	SSHConnector::Log( (char*) "Initialize host menu");
 
 	/* ncruses stuff */
+	clear();
 	initscr();											/* Start curses mode 		*/
 	cbreak();												/* Line buffering disabled	*/
 	keypad( stdscr , true);								/* F1, F2 etc..				*/
@@ -183,6 +185,35 @@ void HostMenu::ShowMenu( void ) {
 		y++;
 	}
 
-	mvwprintw( scrn, height - 1, 4, " [q]Exit [r]Refresh [Return]Select " );
+	ShowHintLabel();
+	SetStatuslabel( ( char* ) "Ready" );
+
 	wrefresh( scrn );
+}
+
+/*
+=====================
+HostMenu::ShowHintLabel
+=====================
+*/
+void HostMenu::ShowHintLabel( void ) {
+	mvwprintw( scrn, height - 1, 4, " [ ]Exit [ ]Refresh [      ]Select " );
+
+	mvwaddch( scrn , height - 1, 6, 'q' | A_BOLD );
+	mvwaddch( scrn , height - 1, 14, 'r' | A_BOLD );
+	mvwaddch( scrn , height - 1, 25, 'R' | A_BOLD );
+	mvwaddch( scrn , height - 1, 26, 'e' | A_BOLD );
+	mvwaddch( scrn , height - 1, 27, 't' | A_BOLD );
+	mvwaddch( scrn , height - 1, 28, 'u' | A_BOLD );
+	mvwaddch( scrn , height - 1, 29, 'r' | A_BOLD );
+	mvwaddch( scrn , height - 1, 30, 'n' | A_BOLD );
+}
+
+/*
+=====================
+HostMenu::SetStatuslabel
+=====================
+*/
+void HostMenu::SetStatuslabel( char *msg ) {
+	mvwprintw( scrn, height - 1, width - 8 - strlen( msg ), "| %s |", msg );
 }

@@ -87,8 +87,8 @@ Config::SplitLine
 */
 void Config::SplitLine( char *line ) {
 	const char delimeter = ';';
-	
 	char *check = (char*) memchr (line, delimeter, strlen(line));
+	
 	if (check!=NULL) {
 		string string_line;
 		string_line.assign( line );

@@ -40,6 +40,8 @@ private:
 	void			ShowTitle( void );
 	void			ShowMenu( void );
 	void			CloseDialog( void );
+	void			ShowHintLabel( void );
+	void			SetStatuslabel( char *msg );
 
 	unsigned int	currentIndex = 0;
 	int 			startPosX = 0;
