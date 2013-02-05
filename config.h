@@ -41,14 +41,14 @@ public:
 	vector<t_host> 	GetHosts( void );
 	void			CopyToVectorList( vector<char*> &result );
 	int				CopyToCharArray( char** &result );
-	char*			GetSshCommandById( int index );
+	void			GetSshCommandById( char *cmd, int index );
 private:
 	void 			ReadConfig( void );
 	void 			SplitLine( char *line );
 	vector<string> 	&Split( const string &str, char delimeter, vector<string> &items );
 	vector<string>	Split( const string &str, char delimeter );
 	char			*ToCharArray( string &value );
-	char 			*BuildHostLine( string &name, string &host, string &port, string &user );
+	void 			BuildHostLine( char *line, string &name, string &host, string &port, string &user );
 
 	char			*filename;
 	vector<t_host> 	hosts;

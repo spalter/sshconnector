@@ -41,14 +41,19 @@ SSHConnector::Run
 void SSHConnector::Run( void ) {
 	while (true) {
 		auto hosts = Config();
-		hosts.Initialize( "hosts.conf" );
+		hosts.Initialize( (char*) "hosts.conf" );
 		{
 			char** list;
+			char *cmd = new char[255];
 			int size = hosts.CopyToCharArray( list );
 
 			HostMenu scrn = HostMenu( list, size );
-			Action( hosts.GetSshCommandById( scrn.ShowDialog() ) );
-		}	
+			hosts.GetSshCommandById( cmd, scrn.ShowDialog() );
+			Action( cmd );
+
+			delete cmd;
+			delete list;
+		}
 	}
 }
 

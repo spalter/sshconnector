@@ -23,7 +23,7 @@ HostMenu
 #include <ncurses.h>
 
 #define KEY_ESCAPE 27
-#define KEY_ENTER 10
+#define KEY_RETURN 10
 
 using namespace std;
 
@@ -41,7 +41,7 @@ private:
 	void			ShowMenu( void );
 	void			CloseDialog( void );
 
-	int 			currentIndex = 0;
+	unsigned int	currentIndex = 0;
 	int 			startPosX = 0;
 	int 			startPosY = 0;
 	int 			screenWidth = 0;

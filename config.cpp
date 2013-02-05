@@ -87,7 +87,6 @@ Config::SplitLine
 */
 void Config::SplitLine( char *line ) {
 	const char delimeter = ';';
-	char **result;
 	
 	char *check = (char*) memchr (line, delimeter, strlen(line));
 	if (check!=NULL) {
@@ -134,9 +133,10 @@ Config::CopyToVectorList
 void Config::CopyToVectorList( vector<char*> &result ) {
 	auto list = GetHosts();
 
-	int i;
+	unsigned int i;
 	for ( i = 0; i < list.size(); i++ ) {
-		auto item = BuildHostLine( list[i].name, list[i].host, list[i].port, list[i].user );
+		char *item = (char*) "";
+		BuildHostLine( item, list[i].name, list[i].host, list[i].port, list[i].user );
 		result.push_back( item );
 	}
 }
@@ -150,10 +150,11 @@ int Config::CopyToCharArray( char** &result ) {
 	auto list = GetHosts();
 	result = new char *[list.size()];
 
-	int i;
+	unsigned int i;
 	for ( i = 0; i < list.size(); i++ ) {
 		result[i] = new char [255];
-		auto item = BuildHostLine( list[i].name, list[i].host, list[i].port, list[i].user );
+		char *item = new char [255];
+		BuildHostLine( item, list[i].name, list[i].host, list[i].port, list[i].user );
 		strncpy( result[i], item, strlen( item ) + 1 );
 	}
 
@@ -171,30 +172,7 @@ char *Config::ToCharArray( string &value ) {
 	return out;
 }
 
-/*
-=====================
-Config::BuildHostLine
-=====================
-*/
-char *Config::BuildHostLine( string &name, string &host, string &port, string &user ) {
-	auto cName = ToCharArray( name );
-	auto cHost = ToCharArray( host );
-	auto cPort = ToCharArray( port );
-	auto cUser = ToCharArray( user );
-
-	char hoststr[250];
-	strcpy( hoststr, cName );
-	strcat( hoststr, "  ->  " );
-	strcat( hoststr, cUser );
-	strcat( hoststr, "@" );
-	strcat( hoststr, cHost );
-	strcat( hoststr, ":" );
-	strcat( hoststr, cPort );
-
-	return hoststr;
-}
-
-char *Config::GetSshCommandById( int index ) {
+void Config::GetSshCommandById( char *cmd, int index ) {
 	char * item_host = new char[hosts[index].host.length() + 1];
 	strncpy( item_host, hosts[index].host.c_str(), hosts[index].host.length() + 1 );
 
@@ -204,13 +182,30 @@ char *Config::GetSshCommandById( int index ) {
 	char * item_user = new char[hosts[index].user.length() + 1];
 	strncpy( item_user, hosts[index].user.c_str(), hosts[index].user.length() + 1 );
 
-	char *sshstr;
-	strcpy( sshstr, "ssh " );
-	strcat( sshstr, item_host );
-	strcat( sshstr, " -p " );
-	strcat( sshstr, item_port );
-	strcat( sshstr, " -l " );
-	strcat( sshstr, item_user );
+	strcpy( cmd, "ssh " );
+	strcat( cmd, item_host );
+	strcat( cmd, " -p " );
+	strcat( cmd, item_port );
+	strcat( cmd, " -l " );
+	strcat( cmd, item_user );
+}
 
-	return sshstr;
+/*
+=====================
+Config::BuildHostLine
+=====================
+*/
+void Config::BuildHostLine( char *cmd, string &name, string &host, string &port, string &user ) {
+	auto cName = ToCharArray( name );
+	auto cHost = ToCharArray( host );
+	auto cPort = ToCharArray( port );
+	auto cUser = ToCharArray( user );
+
+	strcpy( cmd, cName );
+	strcat( cmd, "  ->  " );
+	strcat( cmd, cUser );
+	strcat( cmd, "@" );
+	strcat( cmd, cHost );
+	strcat( cmd, ":" );
+	strcat( cmd, cPort );
 }

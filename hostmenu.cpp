@@ -78,7 +78,7 @@ int HostMenu::Loop( void ) {
 		switch( pressed_key ) {
 			case KEY_UP: OneStepUp(); break;
 			case KEY_DOWN: OneStepDown(); break;
-			case KEY_ENTER: return currentIndex;
+			case KEY_RETURN: return currentIndex;
 			default: refresh(); break;
 		}
 
@@ -145,8 +145,8 @@ HostMenu::ShowTitle
 =====================
 */
 void HostMenu::ShowTitle( void ) {
-	char *name = "SSHConnector";
-	char *author = "by Spalt3r Development";
+	char name[] = "SSHConnector";
+	char author[] = "by Spalt3r Development";
 	mvprintw( (1 ) , (screenWidth / 2) - ( strlen( name ) / 2 ), name );
 	mvprintw( (2 ) , (screenWidth / 2) - ( strlen( author ) / 2 ), author );
 }
@@ -157,13 +157,14 @@ HostMenu::ShowMenu
 =====================
 */
 void HostMenu::ShowMenu( void ) {
-	int i, x, y;
+	int x, y;
 
 	x = 2;
 	y = 2;
 
 	box( scrn, 0, 0 );
 
+	unsigned int i;
 	for( i = 0; i < items.size(); i++ )	{
 		if( currentIndex == i ) {
 			/* highlight */
