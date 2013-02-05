@@ -57,6 +57,7 @@ HostMenu::CloseDialog
 =====================
 */
 void HostMenu::CloseDialog( void ) {
+	curs_set(1);
 	echo();
 	endwin();			/* End curses mode 		*/
 }
@@ -78,6 +79,8 @@ int HostMenu::Loop( void ) {
 		switch( pressed_key ) {
 			case KEY_UP: OneStepUp(); break;
 			case KEY_DOWN: OneStepDown(); break;
+			case 'q': return 0x271A;
+			case 'r': return 0x2724;
 			case KEY_RETURN: return currentIndex;
 			default: refresh(); break;
 		}
@@ -99,6 +102,7 @@ void HostMenu::Initialize( void ) {
 	cbreak();												/* Line buffering disabled	*/
 	keypad( stdscr , true);								/* F1, F2 etc..				*/
 	noecho();
+	curs_set(0);
 
 	/* calculates the screen view */
 	int spaceH = 20;
@@ -179,5 +183,6 @@ void HostMenu::ShowMenu( void ) {
 		y++;
 	}
 
+	mvwprintw( scrn, height - 1, 4, " [q]Exit [r]Refresh [Return]Select " );
 	wrefresh( scrn );
 }

@@ -46,10 +46,19 @@ void SSHConnector::Run( void ) {
 			char** list;
 			char *cmd = new char[255];
 			int size = hosts.CopyToCharArray( list );
+			int result = 0;
 
 			HostMenu scrn = HostMenu( list, size );
-			hosts.GetSshCommandById( cmd, scrn.ShowDialog() );
-			Action( cmd );
+			result = scrn.ShowDialog();
+
+			switch( result ) {
+				case 0x271A: exit(0); break;		/* exit */
+				case 0x2724: continue; break;		/* refresh */
+				default: 
+					hosts.GetSshCommandById( cmd, result );
+					Action( cmd );
+					break;
+			}
 
 			delete cmd;
 			delete list;
