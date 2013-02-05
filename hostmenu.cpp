@@ -138,7 +138,7 @@ HostMenu::OneStepDown
 =====================
 */
 void HostMenu::OneStepDown( void ) {
-	if( currentIndex == items.size() ) {
+	if( currentIndex == items.size() - 1 ) {
 		currentIndex = 0;
 	} else { 
 		++currentIndex;
@@ -166,7 +166,7 @@ void HostMenu::ShowMenu( void ) {
 	int x, y;
 
 	x = 2;
-	y = 2;
+	y = 1;
 
 	box( scrn, 0, 0 );
 
@@ -186,7 +186,12 @@ void HostMenu::ShowMenu( void ) {
 	}
 
 	ShowHintLabel();
-	SetStatuslabel( ( char* ) "Ready" );
+
+	if( items.size() > 0) {
+		SetStatuslabel( ( char* ) "Ready" );
+	} else {
+		SetStatuslabel( ( char* ) "No hosts found" );
+	}
 
 	wrefresh( scrn );
 }
@@ -197,16 +202,16 @@ HostMenu::ShowHintLabel
 =====================
 */
 void HostMenu::ShowHintLabel( void ) {
-	mvwprintw( scrn, height - 1, 4, " [ ]Exit [ ]Refresh [      ]Select " );
+	mvwprintw( scrn, height - 1, 4, "| [ ]Exit [ ]Refresh [      ]Select |" );
 
-	mvwaddch( scrn , height - 1, 6, 'q' | A_BOLD );
-	mvwaddch( scrn , height - 1, 14, 'r' | A_BOLD );
-	mvwaddch( scrn , height - 1, 25, 'R' | A_BOLD );
-	mvwaddch( scrn , height - 1, 26, 'e' | A_BOLD );
-	mvwaddch( scrn , height - 1, 27, 't' | A_BOLD );
-	mvwaddch( scrn , height - 1, 28, 'u' | A_BOLD );
-	mvwaddch( scrn , height - 1, 29, 'r' | A_BOLD );
-	mvwaddch( scrn , height - 1, 30, 'n' | A_BOLD );
+	mvwaddch( scrn , height - 1, 7, 'q' | A_BOLD );
+	mvwaddch( scrn , height - 1, 15, 'r' | A_BOLD );
+	mvwaddch( scrn , height - 1, 26, 'R' | A_BOLD );
+	mvwaddch( scrn , height - 1, 27, 'e' | A_BOLD );
+	mvwaddch( scrn , height - 1, 28, 't' | A_BOLD );
+	mvwaddch( scrn , height - 1, 29, 'u' | A_BOLD );
+	mvwaddch( scrn , height - 1, 30, 'r' | A_BOLD );
+	mvwaddch( scrn , height - 1, 31, 'n' | A_BOLD );
 }
 
 /*

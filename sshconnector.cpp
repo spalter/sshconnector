@@ -41,28 +41,33 @@ SSHConnector::Run
 void SSHConnector::Run( void ) {
 	while (true) {
 		auto hosts = Config();
-		hosts.Initialize( (char*) "hosts.conf" );
-		{
-			char** list;
-			char *cmd = new char[255];
-			int size = hosts.CopyToCharArray( list );
-			int result = 0;
 
-			HostMenu scrn = HostMenu( list, size );
-			result = scrn.ShowDialog();
+		hosts.Initialize( hostfile );
+		if(strlen( userHostFile ) > 0 ) {
+			hosts.AppendList( userHostFile );
+		}
 
-			switch( result ) {
-				case 0x271A: exit(0); break;		/* exit */
-				case 0x2724: continue; break;		/* refresh */
-				default: 
+		char** list;
+		char *cmd = new char[255];
+		int size = hosts.CopyToCharArray( list );
+		int result = 0;
+
+		HostMenu scrn = HostMenu( list, size );
+		result = scrn.ShowDialog();
+
+		switch( result ) {
+			case 0x271A: exit( 0x00 ); break;		/* exit */
+			case 0x2724: continue; break;		/* refresh */
+			default:
+				if( size > 0x00 ) {
 					hosts.GetSshCommandById( cmd, result );
 					Action( cmd );
-					break;
-			}
-
-			delete cmd;
-			delete list;
+				}
+				break;
 		}
+
+		delete cmd;
+		delete list;
 	}
 }
 
@@ -75,7 +80,30 @@ void SSHConnector::Log( char *msg ) {
 	// printf( "Log Message: %s\n", msg );
 }
 
+/*
+=====================
+SSHConnector::Action
+=====================
+*/
 void SSHConnector::Action( char *cmd ) {
 	system ( "clear" );
 	system ( cmd );
+}
+
+/*
+=====================
+SSHConnector::SetHostFile
+=====================
+*/
+void SSHConnector::SetHostFile( char *file ) {
+	hostfile = file;
+}
+
+/*
+=====================
+SSHConnector::SetUserHostFile
+=====================
+*/
+void SSHConnector::SetUserHostFile( char *file ) {
+	userHostFile = file;
 }

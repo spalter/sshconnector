@@ -38,10 +38,11 @@ public:
 					Config( void );
 					~Config( void );
 	void 			Initialize( char *file );
-	vector<t_host> 	GetHosts( void );
+	void			AppendList( char *file );
 	void			CopyToVectorList( vector<char*> &result );
-	int				CopyToCharArray( char** &result );
 	void			GetSshCommandById( char *cmd, int index );
+	int				CopyToCharArray( char** &result );
+	vector<t_host> 	GetHosts( void );
 private:
 	void 			ReadConfig( void );
 	void 			SplitLine( char *line );

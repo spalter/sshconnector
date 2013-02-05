@@ -32,9 +32,13 @@ public:
 					~SSHConnector( void );
 	void			Run( void );
 	void			Action( char *cmd );
+	void			SetHostFile( char *file );
+	void			SetUserHostFile( char *file );
 	static void		Log( char *msg );
 
 private:
+	char			*hostfile = ( char * ) "hosts.conf";
+	char			*userHostFile= ( char * ) "";
 };
 
 #endif /* !__sshconnector_H__ */

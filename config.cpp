@@ -48,6 +48,17 @@ void Config::Initialize( char *file ) {
 
 /*
 =====================
+Config::AppendList
+=====================
+*/
+void Config::AppendList( char *file ) {
+	SSHConnector::Log( (char*) "Append host configuration" );
+	filename = file;
+	ReadConfig();
+}
+
+/*
+=====================
 Config::GetHosts
 =====================
 */
@@ -70,7 +81,7 @@ void Config::ReadConfig( void ) {
 	    while( stream ) {
 	    	stream.getline( line, 255 );
 	    	if( line[0] != '#' && strlen( line ) > 0 ) {
-		    	SplitLine( line );
+	    		SplitLine( line );
 		    }
 	    }
 
@@ -94,8 +105,11 @@ void Config::SplitLine( char *line ) {
 		string_line.assign( line );
 
 		vector<string> result = Split( string_line, delimeter );
-		t_host host = { result[0], result[1], result[2], result[3] };
-		hosts.push_back( host );
+		
+		if( result.size() == 4 ) {
+			t_host host = { result[0], result[1], result[2], result[3] };
+			hosts.push_back( host );
+		}
 	}
 }
 
@@ -172,6 +186,11 @@ char *Config::ToCharArray( string &value ) {
 	return out;
 }
 
+/*
+=====================
+Config::GetSshCommandById
+=====================
+*/
 void Config::GetSshCommandById( char *cmd, int index ) {
 	char * item_host = new char[hosts[index].host.length() + 1];
 	strncpy( item_host, hosts[index].host.c_str(), hosts[index].host.length() + 1 );
