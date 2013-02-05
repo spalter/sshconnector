@@ -9,10 +9,10 @@ FILE = *.cpp
 all: *.cpp
 	echo Start baking SSHConector
 	$(CPP) $(CPPFLAGS) -o sshconnector $(FILE) $(LDFLAGS) $(FRAMEWORKS)
-	echo Run $(FILE)
-	gnome-terminal
-	echo Clean up
-	make clean
+	#echo Run $(FILE)
+	#gnome-terminal
+	#echo Clean up
+	#make clean
 
 normal: *.cpp
 	$(CPP) $(CPPFLAGS) -o sshconnector $(FILE) $(LDFLAGS)
