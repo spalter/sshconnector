@@ -87,6 +87,7 @@ SSHConnector::Action
 */
 void SSHConnector::Action( char *cmd ) {
 	system ( "clear" );
+	system ( "echo Connecting to server..." );
 	system ( cmd );
 }
 
