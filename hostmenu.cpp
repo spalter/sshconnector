@@ -23,10 +23,16 @@ HostMenu::HostMenu
 */
 HostMenu::HostMenu( char** &items, int size ) {
 	int i;
+	this->size = size;
+	menu_items = ( ITEM ** ) calloc ( size + 1, sizeof( ITEM * ) );
 	for( i = 0; i < size ; i++ ) {
-		this->items.push_back( items[i] );
-	}
+		string str = to_string( i );
+		str.append(": ");
 
+		char *host = ToCharArray( str );
+
+		menu_items[i] = new_item( host, items[i] );
+	}
 	Initialize();
 }
 
@@ -37,6 +43,17 @@ HostMenu::~HostMenu
 */
 HostMenu::~HostMenu( void ) {
 	SSHConnector::Log( (char*) "Destory host menu");
+}
+
+/*
+=====================
+HostMenu::ToCharArray
+=====================
+*/
+char *HostMenu::ToCharArray( string &value ) {
+	char *out = new char[value.length() + 1];
+	strncpy( out, value.c_str(), value.length() + 1 );
+	return out;
 }
 
 /*
@@ -60,7 +77,16 @@ void HostMenu::CloseDialog( void ) {
 	clear();
 	curs_set( 1 );
 	echo();
-	endwin();			/* End curses mode 		*/
+	endwin();			/* End ncurses mode */
+	
+	unpost_menu( menu );
+    free_menu( menu );
+
+    int i;
+    for( i = 0; i < size; i++ ) {
+        free_item( menu_items[i] );
+    }
+
 	delwin( scrn );
 }
 
@@ -73,6 +99,18 @@ int HostMenu::Loop( void ) {
 	refresh();
 
 	scrn = newwin( height, width, startPosY, startPosX );
+
+	menu = new_menu( menu_items );
+    set_menu_win( menu, scrn );
+    set_menu_sub( menu, derwin( scrn, height - 4, width - 10, 2, 1 ) );
+	set_menu_format( menu, height - 4 , 1 );
+	set_menu_mark( menu, " * " );
+	post_menu( menu );
+
+	if( size == 0 ) {
+		SetStatuslabel( ( char* ) "No hosts found" );
+	}
+
 	ShowMenu();
 
 	while( true ) {
@@ -89,11 +127,13 @@ int HostMenu::Loop( void ) {
 		switch( pressed_key ) {
 			case KEY_UP: OneStepUp(); break;
 			case KEY_DOWN: OneStepDown(); break;
+			case KEY_PPAGE: PageUp(); break;
+			case KEY_NPAGE: PageDown(); break;
 			case 'q': SetStatuslabel( ( char* ) "Quiting..." ); return 0x271A;
 			case 'r': SetStatuslabel( ( char* ) "Refreshing..." ); return 0x2724;
 			case 'a': SetStatuslabel( ( char* ) "Add host..." ); return 0x2742;
 			case 'h': SetStatuslabel( ( char* ) "Help..." ); return 0x274C;
-			case KEY_RETURN: SetStatuslabel( ( char* ) "Connecting..." ); return currentIndex;
+			case KEY_RETURN: SetStatuslabel( ( char* ) "Connecting..." ); return GetItem();
 			default: refresh(); break;
 		}
 
@@ -111,7 +151,7 @@ void HostMenu::Initialize( void ) {
 
 	/* ncruses stuff */
 	clear();
-	initscr();											/* Start curses mode 		*/
+	initscr();												/* Start curses mode 		*/
 	cbreak();												/* Line buffering disabled	*/
 	keypad( stdscr , true );								/* F1, F2 etc..				*/
 	noecho();
@@ -123,10 +163,10 @@ void HostMenu::Initialize( void ) {
 
 void HostMenu::Screen( void ) {
 	/* calculates the screen view */
-	int spaceH = 20;
+	int spaceH = 15;
 	int spaceW = 10;
 
-	getmaxyx( stdscr, screenHeight, screenWidth );		/* get the boundaries of the screeen */
+	getmaxyx( stdscr, screenHeight, screenWidth );		/* get the bounds of the screeen */
 
 	width = screenWidth - ( screenWidth * spaceW / 100 );
 	height = screenHeight - ( screenHeight * spaceH / 100 );
@@ -141,11 +181,7 @@ HostMenu::OneStepUp
 =====================
 */
 void HostMenu::OneStepUp( void ) {
-	if( currentIndex == 0 ) {
-		currentIndex = items.size() - 1;
-	} else {
-		--currentIndex;
-	}
+	menu_driver( menu, REQ_UP_ITEM );
 }
 
 /*
@@ -154,11 +190,25 @@ HostMenu::OneStepDown
 =====================
 */
 void HostMenu::OneStepDown( void ) {
-	if( currentIndex == items.size() - 1 ) {
-		currentIndex = 0;
-	} else { 
-		++currentIndex;
-	}
+	menu_driver( menu, REQ_DOWN_ITEM );
+}
+
+/*
+=====================
+HostMenu::PageUp
+=====================
+*/
+void HostMenu::PageUp( void ) {
+	menu_driver( menu, REQ_SCR_UPAGE );
+}
+
+/*
+=====================
+HostMenu::PageDown
+=====================
+*/
+void HostMenu::PageDown( void ) {
+	menu_driver( menu, REQ_SCR_DPAGE );
 }
 
 /*
@@ -167,7 +217,7 @@ HostMenu::ShowTitle
 =====================
 */
 void HostMenu::ShowTitle( void ) {
-	char name[] = "SSHConnector v0.2";
+	char name[] = "SSHConnector v0.3";
 	mvprintw( ( 1 ) , ( screenWidth / 2 ) - ( strlen( name ) / 2 ), name );
 }
 
@@ -177,31 +227,11 @@ HostMenu::ShowMenu
 =====================
 */
 void HostMenu::ShowMenu( void ) {
-	int x, y;
-
-	x = 2;
-	y = 1;
-
 	box( scrn, 0, 0 );
-
-	unsigned int i;
-	for( i = 0; i < items.size(); i++ )	{
-		if( currentIndex == i ) {
-			/* highlight */
-			wattron( scrn, A_REVERSE); 
-			mvwprintw( scrn, y, x, "%i: %s",i , items[i] );
-			wattroff( scrn, A_REVERSE);
-		} else {
-			/* normal */
-			mvwprintw( scrn, y, x, "%i: %s",i , items[i] );
-		}
-
-		y++;
-	}
 
 	ShowHintLabel();
 
-	if( items.size() > 0) {
+	if( 1 > 0 ) {
 		SetStatuslabel( ( char* ) "Ready" );
 	} else {
 		SetStatuslabel( ( char* ) "No hosts found" );
@@ -235,4 +265,13 @@ HostMenu::SetStatuslabel
 */
 void HostMenu::SetStatuslabel( char *msg ) {
 	mvwprintw( scrn, height - 1, width - 8 - strlen( msg ), "| %s |", msg );
+}
+
+/*
+=====================
+HostMenu::GetItem
+=====================
+*/
+int HostMenu::GetItem( void ) {
+	return item_index( current_item( menu ) );
 }

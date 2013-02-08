@@ -198,7 +198,7 @@ HelpDialog::ShowTitle
 =====================
 */
 void HelpDialog::ShowTitle( void ) {
-	char name[] = "SSHConnector v0.2";
+	char name[] = "SSHConnector v0.3";
 	mvprintw( ( 1 ) , ( screenWidth / 2 ) - ( strlen( name ) / 2 ), name );
 }
 

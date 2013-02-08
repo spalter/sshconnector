@@ -3,7 +3,7 @@
 CPP = g++ 
 CPPFLAGS = -g -Wall -std=c++11
 LDFLAGS = -lm
-FRAMEWORKS = -lncurses
+FRAMEWORKS = -lncurses -lmenu
 FILE = *.cpp
 
 all: *.cpp

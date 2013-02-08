@@ -18,9 +18,10 @@ HostMenu
 ===============================================================================
 */
 
-#include "string.h"
+#include <string>
 #include "vector"
 #include <ncurses.h>
+#include <menu.h>
 
 #define KEY_ESCAPE 27
 #define KEY_RETURN 10
@@ -37,12 +38,16 @@ private:
 	void			Initialize( void );
 	void			OneStepUp( void );
 	void			OneStepDown( void );
+	void			PageUp( void );
+	void 			PageDown( void );
 	void			ShowTitle( void );
 	void			ShowMenu( void );
 	void			CloseDialog( void );
 	void			ShowHintLabel( void );
 	void			SetStatuslabel( char *msg );
 	void			Screen( void );
+	int			GetItem( void );
+	char			*ToCharArray( string &value );
 
 	unsigned int	currentIndex = 0;
 	int 			startPosX = 0;
@@ -51,8 +56,10 @@ private:
 	int 			screenHeight = 0;
 	int 			width = 0;
 	int 			height = 0;
+	int 			size = 0;
 	WINDOW 			*scrn;
-	vector<char*>	items;
+	MENU			*menu;
+	ITEM 			**menu_items;
 };
 
 #endif /* !__hostmenu_H__ */
