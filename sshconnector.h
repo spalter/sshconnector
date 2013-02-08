@@ -23,6 +23,7 @@ SSHConnector
 #include "config.h"
 #include "string.h"
 #include "hostmenu.h"
+#include "helpdialog.h"
 
 using namespace std;
 
@@ -37,8 +38,10 @@ public:
 	static void		Log( char *msg );
 
 private:
-	char			*hostfile = ( char * ) "hosts.conf";
-	char			*userHostFile= ( char * ) "";
+	char			*hostfile;
+	char			*userHostFile;
+	void			ShowHelp( void );
+	void			AddHost( void );
 };
 
 #endif /* !__sshconnector_H__ */

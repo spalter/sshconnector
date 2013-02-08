@@ -40,6 +40,7 @@ SSHConnector::Run
 */
 void SSHConnector::Run( void ) {
 	while (true) {
+		/* App stuff */
 		auto hosts = Config();
 
 		hosts.Initialize( hostfile );
@@ -56,8 +57,11 @@ void SSHConnector::Run( void ) {
 		result = scrn.ShowDialog();
 
 		switch( result ) {
-			case 0x271A: exit( 0x00 ); break;		/* exit */
-			case 0x2724: continue; break;		/* refresh */
+			case 0x271A: system( "clear" ); exit( 0x00 ); break;		/* exit */
+			case 0x2724: continue; break;								/* refresh */
+			case 0x272E: break; 										/* resize windows */
+			case 0x2742: AddHost(); break; 								/* add host */
+			case 0x274C: ShowHelp(); break;								/* show help */
 			default:
 				if( size > 0x00 ) {
 					hosts.GetSshCommandById( cmd, result );
@@ -107,4 +111,23 @@ SSHConnector::SetUserHostFile
 */
 void SSHConnector::SetUserHostFile( char *file ) {
 	userHostFile = file;
+}
+
+/*
+=====================
+SSHConnector::ShowHelp
+=====================
+*/
+void SSHConnector::ShowHelp( void ) {
+	auto help = HelpDialog();
+	help.ShowDialog();
+}
+
+/*
+=====================
+SSHConnector::AddHost
+=====================
+*/
+void SSHConnector::AddHost( void ) {
+
 }

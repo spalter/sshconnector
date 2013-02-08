@@ -58,9 +58,10 @@ HostMenu::CloseDialog
 */
 void HostMenu::CloseDialog( void ) {
 	clear();
-	curs_set(1);
+	curs_set( 1 );
 	echo();
 	endwin();			/* End curses mode 		*/
+	delwin( scrn );
 }
 
 /*
@@ -69,19 +70,29 @@ HostMenu::Loop
 =====================
 */
 int HostMenu::Loop( void ) {
-	int pressed_key;
-
 	refresh();
+
 	scrn = newwin( height, width, startPosY, startPosX );
 	ShowMenu();
 
 	while( true ) {
+		int pressed_key;
+		int cols, rows;
+		getmaxyx( stdscr, rows, cols );
+
+		if( rows != screenHeight || cols != screenWidth ) {
+			return 0x272E;
+		}
+
 		pressed_key = wgetch( stdscr );
+
 		switch( pressed_key ) {
 			case KEY_UP: OneStepUp(); break;
 			case KEY_DOWN: OneStepDown(); break;
 			case 'q': SetStatuslabel( ( char* ) "Quiting..." ); return 0x271A;
 			case 'r': SetStatuslabel( ( char* ) "Refreshing..." ); return 0x2724;
+			case 'a': SetStatuslabel( ( char* ) "Add host..." ); return 0x2742;
+			case 'h': SetStatuslabel( ( char* ) "Help..." ); return 0x274C;
 			case KEY_RETURN: SetStatuslabel( ( char* ) "Connecting..." ); return currentIndex;
 			default: refresh(); break;
 		}
@@ -102,21 +113,26 @@ void HostMenu::Initialize( void ) {
 	clear();
 	initscr();											/* Start curses mode 		*/
 	cbreak();												/* Line buffering disabled	*/
-	keypad( stdscr , true);								/* F1, F2 etc..				*/
+	keypad( stdscr , true );								/* F1, F2 etc..				*/
 	noecho();
-	curs_set(0);
+	curs_set( 0 );
 
+	/* calculates the screen view */
+	Screen();
+}
+
+void HostMenu::Screen( void ) {
 	/* calculates the screen view */
 	int spaceH = 20;
 	int spaceW = 10;
 
-	getmaxyx(stdscr, screenHeight, screenWidth);		/* get the boundaries of the screeen */
+	getmaxyx( stdscr, screenHeight, screenWidth );		/* get the boundaries of the screeen */
 
-	width = screenWidth - (screenWidth * spaceW / 100);
-	height = screenHeight - (screenHeight * spaceH / 100);
+	width = screenWidth - ( screenWidth * spaceW / 100 );
+	height = screenHeight - ( screenHeight * spaceH / 100 );
 
-	startPosY = (screenHeight - height) / 2 + 1;
-	startPosX = (screenWidth - width) / 2;
+	startPosY = ( screenHeight - height ) / 2 + 1;
+	startPosX = ( screenWidth - width ) / 2;
 }
 
 /*
@@ -151,10 +167,8 @@ HostMenu::ShowTitle
 =====================
 */
 void HostMenu::ShowTitle( void ) {
-	char name[] = "SSHConnector";
-	char author[] = "by Spalt3r Development";
-	mvprintw( (1 ) , (screenWidth / 2) - ( strlen( name ) / 2 ), name );
-	mvprintw( (2 ) , (screenWidth / 2) - ( strlen( author ) / 2 ), author );
+	char name[] = "SSHConnector v0.2";
+	mvprintw( ( 1 ) , ( screenWidth / 2 ) - ( strlen( name ) / 2 ), name );
 }
 
 /*

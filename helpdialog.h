@@ -7,8 +7,8 @@ Copyright (C) 2013 Spalt3r Development
 ===========================================================================
 */
 
-#ifndef __hostmenu_H__
-#define __hostmenu_H__
+#ifndef __helpdialog_H__
+#define __helpdialog_H__
 
 /*
 ===============================================================================
@@ -27,32 +27,32 @@ HostMenu
 
 using namespace std;
 
-class HostMenu {
+class HelpDialog {
 public:
-					HostMenu( char** &items, int size );
-					~HostMenu( void );
+					HelpDialog( void );
+					~HelpDialog( void );
 	int				ShowDialog( void );
 private:
-	int				Loop( void );
 	void			Initialize( void );
-	void			OneStepUp( void );
-	void			OneStepDown( void );
+	void			ShowWindow( void );
+	void			Resize( void );
+	void			Close( void );
+	void			Start( void );
+	void			CalcualteBounds( void );
 	void			ShowTitle( void );
-	void			ShowMenu( void );
-	void			CloseDialog( void );
 	void			ShowHintLabel( void );
 	void			SetStatuslabel( char *msg );
-	void			Screen( void );
+	int 			Loop ( void );
 
-	unsigned int	currentIndex = 0;
-	int 			startPosX = 0;
-	int 			startPosY = 0;
-	int 			screenWidth = 0;
-	int 			screenHeight = 0;
-	int 			width = 0;
-	int 			height = 0;
+	char			*filename 		= ( char * ) "manual";
+	int 			startPosX 		= 0;
+	int 			startPosY 		= 0;
+	int 			screenWidth 	= 0;
+	int 			screenHeight 	= 0;
+	int 			width 			= 0;
+	int 			height 			= 0;
 	WINDOW 			*scrn;
-	vector<char*>	items;
+	vector<char*> 	items;
 };
 
-#endif /* !__hostmenu_H__ */
+#endif /* !__helpdialog_H__ */
