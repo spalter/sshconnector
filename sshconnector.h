@@ -27,6 +27,7 @@ SSHConnector
 #include "string.h"
 #include "hostmenu.h"
 #include "helpdialog.h"
+#include "addhostdialog.h"
 
 using namespace std;
 
