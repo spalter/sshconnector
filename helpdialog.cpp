@@ -79,6 +79,7 @@ void HelpDialog::Initialize( void ) {
 
 	ifstream stream( filename );
 	char line[255];
+	vector<char*> items;
 
 	if( stream ) {
 	    while( stream ) {
@@ -92,6 +93,8 @@ void HelpDialog::Initialize( void ) {
 	} else {
 		SSHConnector::Log( (char*) "Manual not found!" );
 	}
+
+	GenerateMenu( items );
 }
 
 /*
@@ -103,6 +106,13 @@ int HelpDialog::Loop( void ) {
 	refresh();
 
 	scrn = newwin( height, width, startPosY, startPosX );
+	menu = new_menu( menu_items );
+    set_menu_win( menu, scrn );
+    set_menu_sub( menu, derwin( scrn, height - 4, width - 10, 2, 1 ) );
+	set_menu_format( menu, height - 4 , 1 );
+	set_menu_mark( menu, "" );
+	post_menu( menu );
+
 	ShowWindow();
 
 	while( true ) {
@@ -116,8 +126,13 @@ int HelpDialog::Loop( void ) {
 
 		pressed_key = wgetch( stdscr );
 
-		if ( pressed_key == 'q' ) {
-			return 0x00;
+		switch( pressed_key ) {
+			case KEY_UP: OneStepUp(); break;
+			case KEY_DOWN: OneStepDown(); break;
+			case KEY_PPAGE: PageUp(); break;
+			case KEY_NPAGE: PageDown(); break;
+			case 'q': SetStatuslabel( ( char* ) "Quiting..." ); return 0x00;
+			default: refresh(); break;
 		}
 		
 		ShowWindow();
@@ -130,19 +145,9 @@ HelpDialog::ShowWindow
 =====================
 */
 void HelpDialog::ShowWindow( void ) {
-	int x, y;
-
-	x = 2;
-	y = 1;
-
 	box( scrn, 0, 0 );
 
-	unsigned int i;
-	for( i = 0; i < items.size(); i++ ) {
-		mvwprintw( scrn, y, x, items[i] );
-		y++;
-	}
-
+	
 	ShowTitle();
 	ShowHintLabel();
 	SetStatuslabel( ( char* ) "Help" );
@@ -159,6 +164,15 @@ void HelpDialog::Close( void ) {
 	curs_set( 1 );
 	echo();
 	endwin();			/* End curses mode */
+
+	unpost_menu( menu );
+    free_menu( menu );
+
+    int i;
+    for( i = 0; i < size; i++ ) {
+        free_item( menu_items[i] );
+    }
+
 	delwin( scrn );
 }
 
@@ -222,4 +236,54 @@ HelpDialog::SetStatuslabel
 */
 void HelpDialog::SetStatuslabel( char *msg ) {
 	mvwprintw( scrn, height - 1, width - 8 - strlen( msg ), "| %s |", msg );
+}
+
+/*
+=====================
+HelpDialog::GenerateMenu
+=====================
+*/
+void HelpDialog::GenerateMenu( vector<char*> &items ) {
+	int i;
+	this->size = items.size();
+	menu_items = ( ITEM ** ) calloc ( size + 1, sizeof( ITEM * ) );
+	for( i = 0; i < size ; i++ ) {
+		menu_items[i] = new_item( "# ", items[i] );
+	}
+}
+
+/*
+=====================
+HelpDialog::OneStepUp
+=====================
+*/
+void HelpDialog::OneStepUp( void ) {
+	menu_driver( menu, REQ_UP_ITEM );
+}
+
+/*
+=====================
+HelpDialog::OneStepDown
+=====================
+*/
+void HelpDialog::OneStepDown( void ) {
+	menu_driver( menu, REQ_DOWN_ITEM );
+}
+
+/*
+=====================
+HelpDialog::PageUp
+=====================
+*/
+void HelpDialog::PageUp( void ) {
+	menu_driver( menu, REQ_SCR_UPAGE );
+}
+
+/*
+=====================
+HelpDialog::PageDown
+=====================
+*/
+void HelpDialog::PageDown( void ) {
+	menu_driver( menu, REQ_SCR_DPAGE );
 }

@@ -49,7 +49,7 @@ private:
 	void			ShowHintLabel( void );
 	void			SetStatuslabel( char *msg );
 	void			Screen( void );
-	int			GetItem( void );
+	int				GetItem( void );
 	char			*ToCharArray( string &value );
 
 	unsigned int	currentIndex = 0;

@@ -21,9 +21,10 @@ HostMenu
 ===============================================================================
 */
 
-#include "string.h"
+#include <string>
 #include "vector"
 #include <ncurses.h>
+#include <menu.h>
 
 #define KEY_ESCAPE 27
 #define KEY_RETURN 10
@@ -45,6 +46,11 @@ private:
 	void			ShowTitle( void );
 	void			ShowHintLabel( void );
 	void			SetStatuslabel( char *msg );
+	void			GenerateMenu( vector<char*> &items );
+	void			OneStepUp( void );
+	void			OneStepDown( void );
+	void			PageUp( void );
+	void 			PageDown( void );
 	int 			Loop ( void );
 
 	char			*filename 		= ( char * ) "manual";
@@ -54,8 +60,10 @@ private:
 	int 			screenHeight 	= 0;
 	int 			width 			= 0;
 	int 			height 			= 0;
+	int 			size			= 0;
 	WINDOW 			*scrn;
-	vector<char*> 	items;
+	MENU			*menu;
+	ITEM 			**menu_items;
 };
 
 #endif /* !__helpdialog_H__ */

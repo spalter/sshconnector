@@ -249,7 +249,7 @@ HostMenu::ShowHintLabel
 =====================
 */
 void HostMenu::ShowHintLabel( void ) {
-	mvwprintw( scrn, height - 1, 4, "| [ ]Exit [ ]Refresh [      ]Select |" );
+	mvwprintw( scrn, height - 1, 4, "| [ ]Exit [ ]Refresh [      ]Select [ ]Help |" );
 
 	mvwaddch( scrn , height - 1, 7, 'q' | A_BOLD );
 	mvwaddch( scrn , height - 1, 15, 'r' | A_BOLD );
@@ -259,6 +259,7 @@ void HostMenu::ShowHintLabel( void ) {
 	mvwaddch( scrn , height - 1, 29, 'u' | A_BOLD );
 	mvwaddch( scrn , height - 1, 30, 'r' | A_BOLD );
 	mvwaddch( scrn , height - 1, 31, 'n' | A_BOLD );
+	mvwaddch( scrn , height - 1, 41, 'h' | A_BOLD );
 }
 
 /*
