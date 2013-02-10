@@ -116,6 +116,10 @@ void SSHConnector::SetUserHostFile( char *file ) {
 	userHostFile = file;
 }
 
+void SSHConnector::SetHelpFile( char *file ) {
+	helpFile = file;
+}
+
 /*
 =====================
 SSHConnector::ShowHelp
@@ -123,6 +127,7 @@ SSHConnector::ShowHelp
 */
 void SSHConnector::ShowHelp( void ) {
 	auto help = HelpDialog();
+	help.Initialize( helpFile );
 	help.ShowDialog();
 }
 
@@ -132,5 +137,6 @@ SSHConnector::AddHost
 =====================
 */
 void SSHConnector::AddHost( void ) {
-
+	// auto host = AddHostDialog();
+	// host.ShowDialog();
 }

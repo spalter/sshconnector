@@ -43,6 +43,9 @@ private:
 	void			DisableNcurses( void );
 	void			GenerateForm( void );
 	void			ShowForm( void );
+	void			ShowTitle( void );
+	void			ShowHintLabel( void );
+	void			SetStatuslabel( char *msg );
 	int				Loop (void );
 
 	char			*filename;

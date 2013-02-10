@@ -25,7 +25,7 @@ HelpDialog::HelpDialog
 =====================
 */
 HelpDialog::HelpDialog( void ) {
-	Initialize();
+	
 }
 
 /*
@@ -74,7 +74,8 @@ void HelpDialog::Start( void ) {
 HelpDialog::Initialize
 =====================
 */
-void HelpDialog::Initialize( void ) {
+void HelpDialog::Initialize( char* file ) {
+	filename = file;
 	SSHConnector::Log( (char*) "Read manual" );
 
 	ifstream stream( filename );
@@ -146,7 +147,6 @@ HelpDialog::ShowWindow
 */
 void HelpDialog::ShowWindow( void ) {
 	box( scrn, 0, 0 );
-
 	
 	ShowTitle();
 	ShowHintLabel();

@@ -36,5 +36,9 @@ int main( int argc, char** argv ) {
 		app.SetUserHostFile( argv[2] );
 	}
 	
+	if ( argc > 3 ) {
+		app.SetHelpFile( argv[3] );
+	}
+
 	app.Run();
 }

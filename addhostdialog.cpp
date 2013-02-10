@@ -52,15 +52,6 @@ int AddHostDialog::ShowDialog( void ) {
 
 /*
 =====================
-AddHostDialog::Initialize
-=====================
-*/
-void AddHostDialog::Initialize( char *file ) {
-	
-}
-
-/*
-=====================
 AddHostDialog::SetWindowBounds
 =====================
 */
@@ -93,7 +84,7 @@ void AddHostDialog::EnableNcurses( void ) {
 	curs_set( 0 );
 
 	SetWindowBounds();
-	refresh();
+	scrn = newwin( height, width, startPosY, startPosX );	
 }
 
 /*
@@ -110,7 +101,7 @@ void AddHostDialog::DisableNcurses( void ) {
 	unpost_form( form );
 	free_form( form );
 	free_field( fields[0] );
-	free_field( fields[1] ); 
+	free_field( fields[1] );
 
 	delwin( scrn );
 }
@@ -121,8 +112,11 @@ AddHostDialog::Loop
 =====================
 */
 int AddHostDialog::Loop (void ) {
+	refresh();
+	GenerateForm();
+	ShowForm();
 	int pressed_key;
-
+	
 	while( true )
 	{	
 		pressed_key = getch();
@@ -140,6 +134,8 @@ int AddHostDialog::Loop (void ) {
 				form_driver( form, pressed_key );
 				break;
 		}
+
+		ShowForm();
 	}
 	return 0;
 }
@@ -150,9 +146,12 @@ AddHostDialog::ShowForm
 =====================
 */
 void AddHostDialog::ShowForm( void ) {
-	mvprintw(4, 10, "Value 1:");
-	mvprintw(6, 10, "Value 2:");
-	refresh();
+	box( scrn, 0, 0 );
+
+	ShowTitle();
+	ShowHintLabel();
+	SetStatuslabel( ( char* ) "Add host" );
+	wrefresh( scrn );
 }
 
 /*
@@ -176,4 +175,35 @@ void AddHostDialog::GenerateForm( void ) {
 
 	/* Create the form and post it */
 	form = new_form( fields );
+	set_form_win( form, scrn );
+	post_form( form );
+}
+
+/*
+=====================
+AddHostDialog::ShowTitle
+=====================
+*/
+void AddHostDialog::ShowTitle( void ) {
+	char name[] = "SSHConnector v0.3";
+	mvprintw( ( 1 ) , ( screenWidth / 2 ) - ( strlen( name ) / 2 ), name );
+}
+
+/*
+=====================
+AddHostDialog::ShowHintLabel
+=====================
+*/
+void AddHostDialog::ShowHintLabel( void ) {
+	mvwprintw( scrn, height - 1, 4, "| [ ]Exit |" );
+	mvwaddch( scrn , height - 1, 7, 'q' | A_BOLD );
+}
+
+/*
+=====================
+AddHostDialog::SetStatuslabel
+=====================
+*/
+void AddHostDialog::SetStatuslabel( char *msg ) {
+	mvwprintw( scrn, height - 1, width - 8 - strlen( msg ), "| %s |", msg );
 }
