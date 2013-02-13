@@ -22,7 +22,7 @@ HostMenu
 */
 
 #include <string>
-#include <vector>
+#include "vector"
 #include <ncurses.h>
 #include <form.h>
 
@@ -36,14 +36,18 @@ public:
 					AddHostDialog( void );
 					~AddHostDialog( void );
 	int				ShowDialog( void );
-private:
 	void			Initialize( char *file );
-	void			SetWindowBounds( void );
-	void			EnableNcurses( void );
-	void			DisableNcurses( void );
+private:
+	void			ShowWindow( void );
+	void			Resize( void );
+	void			Close( void );
+	void			Start( void );
+	void			CalcualteBounds( void );
+	void			ShowTitle( void );
+	void			ShowHintLabel( void );
+	void			SetStatuslabel( char *msg );
 	void			GenerateForm( void );
-	void			ShowForm( void );
-	int				Loop (void );
+	int 			Loop ( void );
 
 	char			*filename;
 	int 			startPosX 		= 0;
@@ -52,9 +56,10 @@ private:
 	int 			screenHeight 	= 0;
 	int 			width 			= 0;
 	int 			height 			= 0;
+	int 			size			= 0;
 	WINDOW 			*scrn;
 	FORM 			*form;
-	FIELD			*fields[3];
+	FIELD			*fields[5];
 };
 
 #endif /* !__addhostdialog_H__ */

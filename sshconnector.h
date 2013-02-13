@@ -39,11 +39,13 @@ public:
 	void			Action( char *cmd );
 	void			SetHostFile( char *file );
 	void			SetUserHostFile( char *file );
+	void			SetHelpFile( char *file );
 	static void		Log( char *msg );
 
 private:
 	char			*hostfile;
 	char			*userHostFile;
+	char			*helpFile;
 	void			ShowHelp( void );
 	void			AddHost( void );
 };

@@ -25,7 +25,7 @@ HelpDialog::HelpDialog
 =====================
 */
 HelpDialog::HelpDialog( void ) {
-	Initialize();
+
 }
 
 /*
@@ -35,6 +35,11 @@ HelpDialog::~HelpDialog
 */
 HelpDialog::~HelpDialog( void ) {
 	SSHConnector::Log( (char*) "Destory help dialog");
+
+    int i;
+    for( i = 0; i < size; i++ ) {
+        free_item( menu_items[i] );
+    }	
 }
 
 /*
@@ -44,9 +49,7 @@ HelpDialog::ShowDialog
 */
 int HelpDialog::ShowDialog( void ) {
 	Start();
-
 	int result = Loop();
-
 	Close();
 
 	return result;
@@ -74,9 +77,10 @@ void HelpDialog::Start( void ) {
 HelpDialog::Initialize
 =====================
 */
-void HelpDialog::Initialize( void ) {
+void HelpDialog::Initialize( char *file  ) {
 	SSHConnector::Log( (char*) "Read manual" );
 
+	filename = file;
 	ifstream stream( filename );
 	char line[255];
 	vector<char*> items;
@@ -108,8 +112,8 @@ int HelpDialog::Loop( void ) {
 	scrn = newwin( height, width, startPosY, startPosX );
 	menu = new_menu( menu_items );
     set_menu_win( menu, scrn );
-    set_menu_sub( menu, derwin( scrn, height - 4, width - 10, 2, 1 ) );
-	set_menu_format( menu, height - 4 , 1 );
+    set_menu_sub( menu, derwin( scrn, height - 2, width - 10, 1, 1 ) );
+	set_menu_format( menu, height - 2 , 1 );
 	set_menu_mark( menu, "" );
 	post_menu( menu );
 
@@ -132,10 +136,11 @@ int HelpDialog::Loop( void ) {
 			case KEY_PPAGE: PageUp(); break;
 			case KEY_NPAGE: PageDown(); break;
 			case 'q': SetStatuslabel( ( char* ) "Quiting..." ); return 0x00;
-			default: refresh(); break;
+			default: break;
 		}
 		
 		ShowWindow();
+		wrefresh( scrn );
 	}
 }
 
@@ -146,7 +151,6 @@ HelpDialog::ShowWindow
 */
 void HelpDialog::ShowWindow( void ) {
 	box( scrn, 0, 0 );
-
 	
 	ShowTitle();
 	ShowHintLabel();
@@ -166,13 +170,7 @@ void HelpDialog::Close( void ) {
 	endwin();			/* End curses mode */
 
 	unpost_menu( menu );
-    free_menu( menu );
-
-    int i;
-    for( i = 0; i < size; i++ ) {
-        free_item( menu_items[i] );
-    }
-
+	free_menu( menu );
 	delwin( scrn );
 }
 
@@ -204,7 +202,15 @@ void HelpDialog::Resize( void ) {
 	Close();
 	Start();
 	refresh();
+
 	scrn = newwin( height, width, startPosY, startPosX );
+	menu = new_menu( menu_items );
+    set_menu_win( menu, scrn );
+    set_menu_sub( menu, derwin( scrn, height - 2, width - 10, 1, 1 ) );
+	set_menu_format( menu, height - 2 , 1 );
+	set_menu_mark( menu, "" );
+	post_menu( menu );
+
 	ShowWindow();
 	wrefresh( scrn );
 }

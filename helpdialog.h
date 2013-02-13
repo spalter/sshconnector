@@ -36,8 +36,8 @@ public:
 					HelpDialog( void );
 					~HelpDialog( void );
 	int				ShowDialog( void );
+	void			Initialize( char *file );
 private:
-	void			Initialize( void );
 	void			ShowWindow( void );
 	void			Resize( void );
 	void			Close( void );
