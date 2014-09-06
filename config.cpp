@@ -2,7 +2,7 @@
 ===========================================================================
 
 SSHConnector
-Copyright (C) 2013 Spalt3r Development
+Copyright (C) 2014 Spalt3r Development
 
 This file is part of sshconnector, distributed under the GNU GPL v2
 For full terms see the included COPYING file.
@@ -24,7 +24,8 @@ main
 Config::Config
 =====================
 */
-Config::Config() {
+Config::Config() 
+{
 	
 }
 
@@ -33,8 +34,9 @@ Config::Config() {
 Config::~Config
 =====================
 */
-Config::~Config() {
-	SSHConnector::Log( (char*) "Destroy configuration");
+Config::~Config() 
+{
+	SSHConnector::Log( ( char* ) "Destroy configuration");
 	// Todo: Clean up hosts properly
 }
 
@@ -43,8 +45,9 @@ Config::~Config() {
 Config::Initialize
 =====================
 */
-void Config::Initialize( char *file ) {
-	SSHConnector::Log( (char*) "Initialize host configuration" );
+void Config::Initialize( char *file ) 
+{
+	SSHConnector::Log( ( char* ) "Initialize host configuration" );
 	filename = file;
 	ReadConfig();
 }
@@ -54,8 +57,9 @@ void Config::Initialize( char *file ) {
 Config::AppendList
 =====================
 */
-void Config::AppendList( char *file ) {
-	SSHConnector::Log( (char*) "Append host configuration" );
+void Config::AppendList( char *file ) 
+{
+	SSHConnector::Log( ( char* ) "Append host configuration" );
 	filename = file;
 	ReadConfig();
 }
@@ -65,7 +69,8 @@ void Config::AppendList( char *file ) {
 Config::GetHosts
 =====================
 */
-vector<t_host> Config::GetHosts() {
+vector<t_host> Config::GetHosts() 
+{
 	return hosts;
 }
 
@@ -74,23 +79,29 @@ vector<t_host> Config::GetHosts() {
 Config::ReadConfig
 =====================
 */
-void Config::ReadConfig() {
-	SSHConnector::Log( (char*) "Read configuration" );
+void Config::ReadConfig() 
+{
+	SSHConnector::Log( ( char* ) "Read configuration" );
 
 	ifstream stream( filename );
 	char line[255];
 
-	if(stream) {
-	    while( stream ) {
+	if(stream) 
+	{
+	    while ( stream ) 
+	    {
 	    	stream.getline( line, 255 );
-	    	if( line[0] != '#' && strlen( line ) > 0 ) {
+	    	if( line[0] != '#' && strlen( line ) > 0 ) 
+	    	{
 	    		SplitLine( line );
 		    }
 	    }
 
 		stream.close();
-	} else {
-		SSHConnector::Log( (char*) "File not found!" );
+	} 
+	else 
+	{
+		SSHConnector::Log( ( char* ) "File not found!" );
 	}
 }
 
@@ -99,17 +110,20 @@ void Config::ReadConfig() {
 Config::SplitLine
 =====================
 */
-void Config::SplitLine( char *line ) {
+void Config::SplitLine( char *line ) 
+{
 	const char delimeter = ';';
-	char *check = (char*) memchr (line, delimeter, strlen(line));
+	char *check = ( char* ) memchr (line, delimeter, strlen(line));
 	
-	if (check!=NULL) {
+	if ( check != NULL ) 
+	{
 		string string_line;
 		string_line.assign( line );
 
 		vector<string> result = Split( string_line, delimeter );
 		
-		if( result.size() == 4 ) {
+		if( result.size() == 4 ) 
+		{
 			t_host host = { result[0], result[1], result[2], result[3] };
 			hosts.push_back( host );
 		}
@@ -121,11 +135,13 @@ void Config::SplitLine( char *line ) {
 Config::Split
 =====================
 */
-vector<string> &Config::Split( const string &str, char delimeter, vector<string> &items ) {
+vector<string> &Config::Split( const string &str, char delimeter, vector<string> &items ) 
+{
     stringstream str_stream( str );
     string item;
 
-    while( getline( str_stream, item, delimeter ) ) {
+    while ( getline( str_stream, item, delimeter ) ) 
+    {
         items.push_back( item );
     }
 
@@ -137,7 +153,8 @@ vector<string> &Config::Split( const string &str, char delimeter, vector<string>
 Config::Split
 =====================
 */
-vector<string> Config::Split( const std::string &str, char delimeter ) {
+vector<string> Config::Split( const std::string &str, char delimeter ) 
+{
     vector<string> items;
     return Split( str, delimeter, items );
 }
@@ -147,12 +164,14 @@ vector<string> Config::Split( const std::string &str, char delimeter ) {
 Config::CopyToVectorList
 =====================
 */
-void Config::CopyToVectorList( vector<char*> &result ) {
+void Config::CopyToVectorList( vector<char*> &result ) 
+{
 	auto list = GetHosts();
 
 	unsigned int i;
-	for ( i = 0; i < list.size(); i++ ) {
-		char *item = (char*) "";
+	for ( i = 0; i < list.size(); i++ ) 
+	{
+		char *item = ( char* ) "";
 		BuildHostLine( item, list[i].name, list[i].host, list[i].port, list[i].user );
 		result.push_back( item );
 	}
@@ -163,12 +182,14 @@ void Config::CopyToVectorList( vector<char*> &result ) {
 Config::CopyToCharArray
 =====================
 */
-int Config::CopyToCharArray( char** &result ) {
+int Config::CopyToCharArray( char** &result ) 
+{
 	auto list = GetHosts();
 	result = new char *[list.size()];
 
 	unsigned int i;
-	for ( i = 0; i < list.size(); i++ ) {
+	for ( i = 0; i < list.size(); i++ ) 
+	{
 		result[i] = new char [255];
 		char *item = new char [255];
 		BuildHostLine( item, list[i].name, list[i].host, list[i].port, list[i].user );
@@ -183,7 +204,8 @@ int Config::CopyToCharArray( char** &result ) {
 Config::ToCharArray
 =====================
 */
-char *Config::ToCharArray( string &value ) {
+char *Config::ToCharArray( string &value ) 
+{
 	char *out = new char[value.length() + 1];
 	strncpy( out, value.c_str(), value.length() + 1 );
 	return out;
@@ -194,7 +216,8 @@ char *Config::ToCharArray( string &value ) {
 Config::GetSshCommandById
 =====================
 */
-void Config::GetSshCommandById( char *cmd, int index ) {
+void Config::GetSshCommandById( char *cmd, int index ) 
+{
 	char * item_host = new char[hosts[index].host.length() + 1];
 	strncpy( item_host, hosts[index].host.c_str(), hosts[index].host.length() + 1 );
 
@@ -217,7 +240,8 @@ void Config::GetSshCommandById( char *cmd, int index ) {
 Config::BuildHostLine
 =====================
 */
-void Config::BuildHostLine( char *cmd, string &name, string &host, string &port, string &user ) {
+void Config::BuildHostLine( char *cmd, string &name, string &host, string &port, string &user ) 
+{
 	auto cName = ToCharArray( name );
 	auto cHost = ToCharArray( host );
 	auto cPort = ToCharArray( port );

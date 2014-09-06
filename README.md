@@ -1,6 +1,6 @@
 sshconnector 
 ============
-by Spalt3r Development (c) 2013
+by Spalt3r Development (c) 2014
 
 What is it?
 Small ncurses SSH bookmark tool. Let you select hosts via a config file and connect them via the ssh command.
