@@ -25,7 +25,8 @@ SSHConnector::SSHConnector
 */
 SSHConnector::SSHConnector() 
 {
-
+	hostfile = ( char * ) "\0";
+	userHostFile = ( char * ) "\0";
 }
 
 /*
@@ -51,10 +52,7 @@ void SSHConnector::Run()
 		auto hosts = Config();
 
 		hosts.Initialize( hostfile );
-		if(strlen( userHostFile ) > 0 ) 
-		{
-			hosts.AppendList( userHostFile );
-		}
+		hosts.AppendList( userHostFile );
 
 		char** list;
 		char *cmd = new char[255];
@@ -66,12 +64,12 @@ void SSHConnector::Run()
 
 		switch( result ) 
 		{
-			case 0x271A: system( "clear" ); exit( 0x00 ); break;		/* exit */
+			case 0x271A: system( "clear" ); exit( 0 ); break;		/* exit */
 			case 0x2724: continue; break;								/* refresh */
 			case 0x272E: break; 										/* resize windows */
 			case 0x274C: ShowHelp(); break;								/* show help */
 			default:
-				if( size > 0x00 ) 
+				if( size > 0 ) 
 				{
 					hosts.GetSshCommandById( cmd, result );
 					Action( cmd );

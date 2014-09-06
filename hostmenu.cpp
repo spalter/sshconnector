@@ -27,9 +27,9 @@ HostMenu::HostMenu
 HostMenu::HostMenu( char** &items, int size ) 
 {	
 	this->size = size;
-	menu_items = ( ITEM ** ) calloc ( size + 1, sizeof( ITEM * ) );
+	menu_items = ( ITEM ** ) calloc ( this->size + 1, sizeof( ITEM * ) );
 	
-	for ( int i = 0; i < size ; i++ ) 
+	for ( int i = 0; i < this->size ; i++ ) 
 	{
 		string str = to_string( i );
 		str.append(": ");
@@ -235,7 +235,7 @@ HostMenu::ShowTitle
 */
 void HostMenu::ShowTitle() 
 {
-	char name[] = "SSHConnector v0.3";
+	char name[] = "SSHConnector v0.4";
 	mvprintw( ( 1 ) , ( screenWidth / 2 ) - ( strlen( name ) / 2 ), name );
 }
 
@@ -250,7 +250,7 @@ void HostMenu::ShowMenu()
 
 	ShowHintLabel();
 
-	if( 1 > 0 ) 
+	if( size > 0 ) 
 	{
 		SetStatuslabel( ( char* ) "Ready" );
 	} 
