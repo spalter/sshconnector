@@ -38,16 +38,16 @@ typedef struct t_host {
 
 class Config {
 public:
-					Config( void );
-					~Config( void );
+					Config();
+					~Config();
 	void 			Initialize( char *file );
 	void			AppendList( char *file );
 	void			CopyToVectorList( vector<char*> &result );
 	void			GetSshCommandById( char *cmd, int index );
 	int				CopyToCharArray( char** &result );
-	vector<t_host> 	GetHosts( void );
+	vector<t_host> 	GetHosts();
 private:
-	void 			ReadConfig( void );
+	void 			ReadConfig();
 	void 			SplitLine( char *line );
 	vector<string> 	&Split( const string &str, char delimeter, vector<string> &items );
 	vector<string>	Split( const string &str, char delimeter );

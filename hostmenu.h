@@ -34,25 +34,24 @@ using namespace std;
 class HostMenu {
 public:
 					HostMenu( char** &items, int size );
-					~HostMenu( void );
-	int				ShowDialog( void );
+					~HostMenu();
+	int				ShowDialog();
 private:
-	int				Loop( void );
-	void			Initialize( void );
-	void			OneStepUp( void );
-	void			OneStepDown( void );
-	void			PageUp( void );
-	void 			PageDown( void );
-	void			ShowTitle( void );
-	void			ShowMenu( void );
-	void			CloseDialog( void );
-	void			ShowHintLabel( void );
+	int				Loop();
+	void			Initialize();
+	void			OneStepUp();
+	void			OneStepDown();
+	void			PageUp();
+	void 			PageDown();
+	void			ShowTitle();
+	void			ShowMenu();
+	void			CloseDialog();
+	void			ShowHintLabel();
 	void			SetStatuslabel( char *msg );
-	void			Screen( void );
-	int				GetItem( void );
+	void			Screen();
+	int				GetItem();
 	char			*ToCharArray( string &value );
 
-	unsigned int	currentIndex = 0;
 	int 			startPosX = 0;
 	int 			startPosY = 0;
 	int 			screenWidth = 0;

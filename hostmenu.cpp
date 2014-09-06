@@ -44,7 +44,7 @@ HostMenu::HostMenu( char** &items, int size ) {
 HostMenu::~HostMenu
 =====================
 */
-HostMenu::~HostMenu( void ) {
+HostMenu::~HostMenu() {
 	SSHConnector::Log( (char*) "Destory host menu");
 }
 
@@ -64,7 +64,7 @@ char *HostMenu::ToCharArray( string &value ) {
 HostMenu::ShowDialog
 =====================
 */
-int HostMenu::ShowDialog( void ) {
+int HostMenu::ShowDialog() {
 	ShowTitle();
 	int result = Loop();
 	CloseDialog();
@@ -76,7 +76,7 @@ int HostMenu::ShowDialog( void ) {
 HostMenu::CloseDialog
 =====================
 */
-void HostMenu::CloseDialog( void ) {
+void HostMenu::CloseDialog() {
 	clear();
 	curs_set( 1 );
 	echo();
@@ -98,7 +98,7 @@ void HostMenu::CloseDialog( void ) {
 HostMenu::Loop
 =====================
 */
-int HostMenu::Loop( void ) {
+int HostMenu::Loop() {
 	refresh();
 
 	scrn = newwin( height, width, startPosY, startPosX );
@@ -149,7 +149,7 @@ int HostMenu::Loop( void ) {
 HostMenu::Initialize
 =====================
 */
-void HostMenu::Initialize( void ) {
+void HostMenu::Initialize() {
 	SSHConnector::Log( (char*) "Initialize host menu");
 
 	/* ncruses stuff */
@@ -164,7 +164,7 @@ void HostMenu::Initialize( void ) {
 	Screen();
 }
 
-void HostMenu::Screen( void ) {
+void HostMenu::Screen() {
 	/* calculates the screen view */
 	int spaceH = 15;
 	int spaceW = 10;
@@ -183,7 +183,7 @@ void HostMenu::Screen( void ) {
 HostMenu::OneStepUp
 =====================
 */
-void HostMenu::OneStepUp( void ) {
+void HostMenu::OneStepUp() {
 	menu_driver( menu, REQ_UP_ITEM );
 }
 
@@ -192,7 +192,7 @@ void HostMenu::OneStepUp( void ) {
 HostMenu::OneStepDown
 =====================
 */
-void HostMenu::OneStepDown( void ) {
+void HostMenu::OneStepDown() {
 	menu_driver( menu, REQ_DOWN_ITEM );
 }
 
@@ -201,7 +201,7 @@ void HostMenu::OneStepDown( void ) {
 HostMenu::PageUp
 =====================
 */
-void HostMenu::PageUp( void ) {
+void HostMenu::PageUp() {
 	menu_driver( menu, REQ_SCR_UPAGE );
 }
 
@@ -210,7 +210,7 @@ void HostMenu::PageUp( void ) {
 HostMenu::PageDown
 =====================
 */
-void HostMenu::PageDown( void ) {
+void HostMenu::PageDown() {
 	menu_driver( menu, REQ_SCR_DPAGE );
 }
 
@@ -219,7 +219,7 @@ void HostMenu::PageDown( void ) {
 HostMenu::ShowTitle
 =====================
 */
-void HostMenu::ShowTitle( void ) {
+void HostMenu::ShowTitle() {
 	char name[] = "SSHConnector v0.3";
 	mvprintw( ( 1 ) , ( screenWidth / 2 ) - ( strlen( name ) / 2 ), name );
 }
@@ -229,7 +229,7 @@ void HostMenu::ShowTitle( void ) {
 HostMenu::ShowMenu
 =====================
 */
-void HostMenu::ShowMenu( void ) {
+void HostMenu::ShowMenu() {
 	box( scrn, 0, 0 );
 
 	ShowHintLabel();
@@ -248,7 +248,7 @@ void HostMenu::ShowMenu( void ) {
 HostMenu::ShowHintLabel
 =====================
 */
-void HostMenu::ShowHintLabel( void ) {
+void HostMenu::ShowHintLabel() {
 	mvwprintw( scrn, height - 1, 4, "| [ ]Exit [ ]Refresh [      ]Select [ ]Help |" );
 
 	mvwaddch( scrn , height - 1, 7, 'q' | A_BOLD );
@@ -276,6 +276,6 @@ void HostMenu::SetStatuslabel( char *msg ) {
 HostMenu::GetItem
 =====================
 */
-int HostMenu::GetItem( void ) {
+int HostMenu::GetItem() {
 	return item_index( current_item( menu ) );
 }

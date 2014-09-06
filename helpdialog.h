@@ -33,25 +33,25 @@ using namespace std;
 
 class HelpDialog {
 public:
-					HelpDialog( void );
-					~HelpDialog( void );
-	int				ShowDialog( void );
+					HelpDialog();
+					~HelpDialog();
+	int				ShowDialog();
 	void			Initialize( char *file );
 private:
-	void			ShowWindow( void );
-	void			Resize( void );
-	void			Close( void );
-	void			Start( void );
-	void			CalcualteBounds( void );
-	void			ShowTitle( void );
-	void			ShowHintLabel( void );
+	void			ShowWindow();
+	void			Resize();
+	void			Close();
+	void			Start();
+	void			CalcualteBounds();
+	void			ShowTitle();
+	void			ShowHintLabel();
 	void			SetStatuslabel( char *msg );
 	void			GenerateMenu( vector<char*> &items );
-	void			OneStepUp( void );
-	void			OneStepDown( void );
-	void			PageUp( void );
-	void 			PageDown( void );
-	int 			Loop ( void );
+	void			OneStepUp();
+	void			OneStepDown();
+	void			PageUp();
+	void 			PageDown();
+	int 			Loop ();
 
 	char			*filename 		= ( char * ) "manual";
 	int 			startPosX 		= 0;

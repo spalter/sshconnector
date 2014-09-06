@@ -24,7 +24,7 @@ main
 Config::Config
 =====================
 */
-Config::Config( void ) {
+Config::Config() {
 	
 }
 
@@ -33,7 +33,7 @@ Config::Config( void ) {
 Config::~Config
 =====================
 */
-Config::~Config( void ) {
+Config::~Config() {
 	SSHConnector::Log( (char*) "Destroy configuration");
 	// Todo: Clean up hosts properly
 }
@@ -65,7 +65,7 @@ void Config::AppendList( char *file ) {
 Config::GetHosts
 =====================
 */
-vector<t_host> Config::GetHosts( void ) {
+vector<t_host> Config::GetHosts() {
 	return hosts;
 }
 
@@ -74,7 +74,7 @@ vector<t_host> Config::GetHosts( void ) {
 Config::ReadConfig
 =====================
 */
-void Config::ReadConfig( void ) {
+void Config::ReadConfig() {
 	SSHConnector::Log( (char*) "Read configuration" );
 
 	ifstream stream( filename );

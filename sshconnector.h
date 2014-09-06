@@ -27,15 +27,14 @@ SSHConnector
 #include "string.h"
 #include "hostmenu.h"
 #include "helpdialog.h"
-#include "addhostdialog.h"
 
 using namespace std;
 
 class SSHConnector {
 public:
-					SSHConnector( void );
-					~SSHConnector( void );
-	void			Run( void );
+					SSHConnector();
+					~SSHConnector();
+	void			Run();
 	void			Action( char *cmd );
 	void			SetHostFile( char *file );
 	void			SetUserHostFile( char *file );
@@ -46,8 +45,7 @@ private:
 	char			*hostfile;
 	char			*userHostFile;
 	char			*helpFile;
-	void			ShowHelp( void );
-	void			AddHost( void );
+	void			ShowHelp();
 };
 
 #endif /* !__sshconnector_H__ */

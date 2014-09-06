@@ -23,7 +23,7 @@ SSHConnector
 SSHConnector::SSHConnector
 =====================
 */
-SSHConnector::SSHConnector( void ) {
+SSHConnector::SSHConnector() {
 
 }
 
@@ -32,7 +32,7 @@ SSHConnector::SSHConnector( void ) {
 SSHConnector::~SSHConnector
 =====================
 */
-SSHConnector::~SSHConnector( void ) {
+SSHConnector::~SSHConnector() {
 
 }
 
@@ -41,7 +41,7 @@ SSHConnector::~SSHConnector( void ) {
 SSHConnector::Run
 =====================
 */
-void SSHConnector::Run( void ) {
+void SSHConnector::Run() {
 	while (true) {
 		/* App stuff */
 		auto hosts = Config();
@@ -63,7 +63,6 @@ void SSHConnector::Run( void ) {
 			case 0x271A: system( "clear" ); exit( 0x00 ); break;		/* exit */
 			case 0x2724: continue; break;								/* refresh */
 			case 0x272E: break; 										/* resize windows */
-			case 0x2742: AddHost(); break; 								/* add host */
 			case 0x274C: ShowHelp(); break;								/* show help */
 			default:
 				if( size > 0x00 ) {
@@ -130,19 +129,8 @@ void SSHConnector::SetHelpFile( char *file ) {
 SSHConnector::ShowHelp
 =====================
 */
-void SSHConnector::ShowHelp( void ) {
+void SSHConnector::ShowHelp() {
 	auto help = HelpDialog();
 	help.Initialize( helpFile );
 	help.ShowDialog();
-}
-
-/*
-=====================
-SSHConnector::AddHost
-=====================
-*/
-void SSHConnector::AddHost( void ) {
-	auto dlg = AddHostDialog();
-	dlg.Initialize( userHostFile );
-	dlg.ShowDialog();
 }
