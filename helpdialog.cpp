@@ -123,9 +123,9 @@ int HelpDialog::Loop()
 	scrn = newwin( height, width, startPosY, startPosX );
 	menu = new_menu( menu_items );
     set_menu_win( menu, scrn );
-    set_menu_sub( menu, derwin( scrn, height - 2, width - 10, 1, 1 ) );
-	set_menu_format( menu, height - 2 , 1 );
-	set_menu_mark( menu, "" );
+    set_menu_sub( menu, derwin( scrn, height - 2, width - 10, 2, 1 ) );
+	set_menu_format( menu, height - 4 , 1 );
+	set_menu_mark( menu, " " );
 	post_menu( menu );
 
 	ShowWindow();
@@ -149,7 +149,7 @@ int HelpDialog::Loop()
 			case KEY_DOWN: OneStepDown(); break;
 			case KEY_PPAGE: PageUp(); break;
 			case KEY_NPAGE: PageDown(); break;
-			case 'q': SetStatuslabel( ( char* ) "Quiting..." ); return 0x00;
+			case 'q': SetStatuslabel( ( char* ) "Quiting..." ); return 0;
 			default: break;
 		}
 		
@@ -198,7 +198,7 @@ HelpDialog::CalcualteBounds
 void HelpDialog::CalcualteBounds() 
 {
 	/* calculates the screen view */
-	int spaceH = 20;
+	int spaceH = 15;
 	int spaceW = 10;
 
 	getmaxyx( stdscr, screenHeight, screenWidth );		/* get the boundaries of the screeen */
@@ -276,7 +276,7 @@ void HelpDialog::GenerateMenu( vector<char*> &items )
 	this->size = items.size();
 	menu_items = ( ITEM ** ) calloc ( size + 1, sizeof( ITEM * ) );
 	for ( i = 0; i < size ; i++ ) {
-		menu_items[i] = new_item( "# ", items[i] );
+		menu_items[i] = new_item( " ", items[i] );
 	}
 }
 
