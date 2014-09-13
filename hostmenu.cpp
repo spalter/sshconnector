@@ -142,7 +142,6 @@ int HostMenu::Loop()
 			case KEY_NPAGE: PageDown(); break;
 			case 'q': SetStatuslabel( ( char* ) "Quiting..." ); return 0x271A;
 			case 'r': SetStatuslabel( ( char* ) "Refreshing..." ); return 0x2724;
-			case 'a': SetStatuslabel( ( char* ) "Add host..." ); return 0x2742;
 			case 'h': SetStatuslabel( ( char* ) "Help..." ); return 0x274C;
 			case KEY_RETURN: SetStatuslabel( ( char* ) "Connecting..." ); return GetItem();
 			default: refresh(); break;
