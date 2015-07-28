@@ -137,7 +137,9 @@ int HostMenu::Loop()
 
 		switch( pressed_key ) {
 			case KEY_UP: OneStepUp(); break;
+			case 'k': OneStepUp(); break;
 			case KEY_DOWN: OneStepDown(); break;
+			case 'j': OneStepDown(); break;
 			case KEY_PPAGE: PageUp(); break;
 			case KEY_NPAGE: PageDown(); break;
 			case 'q': SetStatuslabel( ( char* ) "Quiting..." ); return 0x271A;
@@ -234,7 +236,7 @@ HostMenu::ShowTitle
 */
 void HostMenu::ShowTitle() 
 {
-	char name[] = "SSHConnector v0.4";
+	char name[] = "SSHConnector v0.5";
 	mvprintw( ( 1 ) , ( screenWidth / 2 ) - ( strlen( name ) / 2 ), name );
 }
 
