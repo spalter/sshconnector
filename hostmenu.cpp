@@ -146,6 +146,7 @@ int HostMenu::Loop()
 			case 'r': SetStatuslabel( ( char* ) "Refreshing..." ); return 0x2724;
 			case 'h': SetStatuslabel( ( char* ) "Help..." ); return 0x274C;
 			case KEY_RETURN: SetStatuslabel( ( char* ) "Connecting..." ); return GetItem();
+			case 'l': SetStatuslabel( ( char* ) "Connecting..." ); return GetItem();
 			default: refresh(); break;
 		}
 
