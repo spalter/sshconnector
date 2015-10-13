@@ -8,9 +8,13 @@ Small ncurses SSH bookmark tool. Let you select hosts via a config file and conn
 Which systems?
 Only tested on linux/debian so far.
 
+Features?
+- Multiple hostfiles
+- Show hosts on EC2 based on a filter (AWSCLI required)
+
 How to run?
 If you have installed the ncurses5 libraries, just type
-~./sshconnector «static host file» «user defined host file» «manual»
+~./sshconnector «static host file» «user defined host file» «manual» «EC2 filter»
 
 How to compile?
 You will need a c++11 compiler and the ncruses libs.

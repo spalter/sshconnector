@@ -27,24 +27,27 @@ SSHConnector
 #include "string.h"
 #include "hostmenu.h"
 #include "helpdialog.h"
+#include "aws.h"
 
 using namespace std;
 
 class SSHConnector {
 public:
-					SSHConnector();
-					~SSHConnector();
-	void			Run();
-	void			Action( char *cmd );
-	void			SetHostFile( char *file );
-	void			SetUserHostFile( char *file );
-	void			SetHelpFile( char *file );
+								SSHConnector();
+								~SSHConnector();
+	void					Run();
+	void					Action( char *cmd );
+	void					SetHostFile( char *file );
+	void					SetUserHostFile( char *file );
+	void					SetHelpFile( char *file );
+	void 					SetAWSFilter( char *filter );
 	static void		Log( char *msg );
 
 private:
 	char			*hostfile;
 	char			*userHostFile;
 	char			*helpFile;
+	char		*awsFilter;
 	void			ShowHelp();
 };
 

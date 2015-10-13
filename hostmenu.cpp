@@ -24,12 +24,12 @@ HostMenu
 HostMenu::HostMenu
 =====================
 */
-HostMenu::HostMenu( char** &items, int size ) 
-{	
+HostMenu::HostMenu( char** &items, int size )
+{
 	this->size = size;
 	menu_items = ( ITEM ** ) calloc ( this->size + 1, sizeof( ITEM * ) );
-	
-	for ( int i = 0; i < this->size ; i++ ) 
+
+	for ( int i = 0; i < this->size ; i++ )
 	{
 		string str = to_string( i );
 		str.append(": ");
@@ -45,7 +45,7 @@ HostMenu::HostMenu( char** &items, int size )
 HostMenu::~HostMenu
 =====================
 */
-HostMenu::~HostMenu() 
+HostMenu::~HostMenu()
 {
 	SSHConnector::Log( ( char* ) "Destory host menu");
 }
@@ -55,7 +55,7 @@ HostMenu::~HostMenu()
 HostMenu::ToCharArray
 =====================
 */
-char *HostMenu::ToCharArray( string &value ) 
+char *HostMenu::ToCharArray( string &value )
 {
 	char *out = new char[value.length() + 1];
 	strncpy( out, value.c_str(), value.length() + 1 );
@@ -67,7 +67,7 @@ char *HostMenu::ToCharArray( string &value )
 HostMenu::ShowDialog
 =====================
 */
-int HostMenu::ShowDialog() 
+int HostMenu::ShowDialog()
 {
 	ShowTitle();
 	int result = Loop();
@@ -80,17 +80,17 @@ int HostMenu::ShowDialog()
 HostMenu::CloseDialog
 =====================
 */
-void HostMenu::CloseDialog() 
+void HostMenu::CloseDialog()
 {
 	clear();
 	curs_set( 1 );
 	echo();
 	endwin();			/* End ncurses mode */
-	
+
 	unpost_menu( menu );
     free_menu( menu );
 
-    for ( int i = 0; i < size; i++ ) 
+    for ( int i = 0; i < size; i++ )
     {
         free_item( menu_items[i] );
     }
@@ -103,7 +103,7 @@ void HostMenu::CloseDialog()
 HostMenu::Loop
 =====================
 */
-int HostMenu::Loop() 
+int HostMenu::Loop()
 {
 	refresh();
 
@@ -116,14 +116,14 @@ int HostMenu::Loop()
 	set_menu_mark( menu, " * " );
 	post_menu( menu );
 
-	if( size == 0 ) 
+	if( size == 0 )
 	{
 		SetStatuslabel( ( char* ) "No hosts found" );
 	}
 
 	ShowMenu();
 
-	while ( true ) 
+	while ( true )
 	{
 		int pressed_key;
 		int cols, rows;
@@ -159,7 +159,7 @@ int HostMenu::Loop()
 HostMenu::Initialize
 =====================
 */
-void HostMenu::Initialize() 
+void HostMenu::Initialize()
 {
 	SSHConnector::Log( ( char* ) "Initialize host menu");
 
@@ -175,7 +175,7 @@ void HostMenu::Initialize()
 	Screen();
 }
 
-void HostMenu::Screen() 
+void HostMenu::Screen()
 {
 	/* calculates the screen view */
 	int spaceH = 15;
@@ -195,7 +195,7 @@ void HostMenu::Screen()
 HostMenu::OneStepUp
 =====================
 */
-void HostMenu::OneStepUp() 
+void HostMenu::OneStepUp()
 {
 	menu_driver( menu, REQ_UP_ITEM );
 }
@@ -205,7 +205,7 @@ void HostMenu::OneStepUp()
 HostMenu::OneStepDown
 =====================
 */
-void HostMenu::OneStepDown() 
+void HostMenu::OneStepDown()
 {
 	menu_driver( menu, REQ_DOWN_ITEM );
 }
@@ -215,7 +215,7 @@ void HostMenu::OneStepDown()
 HostMenu::PageUp
 =====================
 */
-void HostMenu::PageUp() 
+void HostMenu::PageUp()
 {
 	menu_driver( menu, REQ_SCR_UPAGE );
 }
@@ -225,7 +225,7 @@ void HostMenu::PageUp()
 HostMenu::PageDown
 =====================
 */
-void HostMenu::PageDown() 
+void HostMenu::PageDown()
 {
 	menu_driver( menu, REQ_SCR_DPAGE );
 }
@@ -235,9 +235,9 @@ void HostMenu::PageDown()
 HostMenu::ShowTitle
 =====================
 */
-void HostMenu::ShowTitle() 
+void HostMenu::ShowTitle()
 {
-	char name[] = "SSHConnector v0.5";
+	char name[] = "SSHConnector v0.6";
 	mvprintw( ( 1 ) , ( screenWidth / 2 ) - ( strlen( name ) / 2 ), name );
 }
 
@@ -246,17 +246,17 @@ void HostMenu::ShowTitle()
 HostMenu::ShowMenu
 =====================
 */
-void HostMenu::ShowMenu() 
+void HostMenu::ShowMenu()
 {
 	box( scrn, 0, 0 );
 
 	ShowHintLabel();
 
-	if( size > 0 ) 
+	if( size > 0 )
 	{
 		SetStatuslabel( ( char* ) "Ready" );
-	} 
-	else 
+	}
+	else
 	{
 		SetStatuslabel( ( char* ) "No hosts found" );
 	}
@@ -269,7 +269,7 @@ void HostMenu::ShowMenu()
 HostMenu::ShowHintLabel
 =====================
 */
-void HostMenu::ShowHintLabel() 
+void HostMenu::ShowHintLabel()
 {
 	mvwprintw( scrn, height - 1, 4, "| [ ]Exit [ ]Refresh [      ]Select [ ]Help |" );
 
@@ -289,7 +289,7 @@ void HostMenu::ShowHintLabel()
 HostMenu::SetStatuslabel
 =====================
 */
-void HostMenu::SetStatuslabel( char *msg ) 
+void HostMenu::SetStatuslabel( char *msg )
 {
 	mvwprintw( scrn, height - 1, width - 8 - strlen( msg ), "| %s |", msg );
 }
@@ -299,7 +299,7 @@ void HostMenu::SetStatuslabel( char *msg )
 HostMenu::GetItem
 =====================
 */
-int HostMenu::GetItem() 
+int HostMenu::GetItem()
 {
 	return item_index( current_item( menu ) );
 }
