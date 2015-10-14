@@ -52,12 +52,15 @@ void SSHConnector::Run()
 		auto hosts = Config();
 		auto aws = AWS();
 
-		if ( ( awsFilter != NULL ) && strlen( awsFilter ) > 0 )
-			aws.SetFilter( std::string( awsFilter) );
-
 		hosts.Initialize( hostfile );
 		hosts.AppendList( userHostFile );
-		hosts.AppendList( (char *) aws.GetList().c_str() );
+
+    if ( ( awsFilter != NULL ) && strlen( awsFilter ) > 0 )
+    {
+			aws.SetFilter( std::string( awsFilter) );
+      hosts.AppendList( (char *) aws.GetList().c_str() );
+    }
+
 
 		char** list;
 		char *cmd = new char[255];
