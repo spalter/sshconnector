@@ -18,6 +18,7 @@ For full terms see the included COPYING file.
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 #include "json11.hpp"
 
 /*
