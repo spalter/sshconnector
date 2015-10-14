@@ -39,11 +39,21 @@ AWS::~AWS()
 	remove( tmp_host_file.c_str() );
 }
 
+/*
+=====================
+AWS::SetFilter
+=====================
+*/
 void AWS::SetFilter( std::string filter )
 {
 	user = filter;
 }
 
+/*
+=====================
+AWS::GetList
+=====================
+*/
 std::string AWS::GetList()
 {
 	RetriveData();
@@ -51,6 +61,11 @@ std::string AWS::GetList()
 	return tmp_host_file;
 }
 
+/*
+=====================
+AWS::RetriveData
+=====================
+*/
 void AWS::RetriveData()
 {
   tmp_file = TMP_PATH + RandomString( 10 ) + ".x";
@@ -63,6 +78,11 @@ void AWS::RetriveData()
   delete[] cmd;
 }
 
+/*
+=====================
+AWS::ParseData
+=====================
+*/
 void AWS::ParseData()
 {
   std::ifstream ifs( tmp_file );
@@ -99,6 +119,11 @@ void AWS::ParseData()
   }
 }
 
+/*
+=====================
+AWS::RandomString
+=====================
+*/
 std::string AWS::RandomString( size_t length )
 {
     auto randchar = []() -> char
