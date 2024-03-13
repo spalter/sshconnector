@@ -35,33 +35,33 @@ class HostMenu {
 public:
                     HostMenu( char** &items, int size );
                     ~HostMenu();
-	int				ShowDialog();
+    int				ShowDialog();
 private:
-	int				Loop();
-	void			Initialize();
-	void			OneStepUp();
-	void			OneStepDown();
-	void			PageUp();
-	void 			PageDown();
-	void			ShowTitle();
-	void			ShowMenu();
-	void			CloseDialog();
-	void			ShowHintLabel();
-	void			SetStatuslabel( char *msg );
-	void			Screen();
-	int				GetItem();
-	char			*ToCharArray( string &value );
+    int				Loop();
+    void			Initialize();
+    void			OneStepUp();
+    void			OneStepDown();
+    void			PageUp();
+    void 			PageDown();
+    void			ShowTitle();
+    void			ShowMenu();
+    void			CloseDialog();
+    void			ShowHintLabel();
+    void			SetStatuslabel( char *msg );
+    void			Screen();
+    int				GetItem();
+    char			*ToCharArray( string &value );
 
-	int 			startPosX = 0;
-	int 			startPosY = 0;
-	int 			screenWidth = 0;
-	int 			screenHeight = 0;
-	int 			width = 0;
-	int 			height = 0;
-	int 			size = 0;
-	WINDOW 			*scrn;
-	MENU			*menu;
-	ITEM 			**menu_items;
+    int 			startPosX = 0;
+    int 			startPosY = 0;
+    int 			screenWidth = 0;
+    int 			screenHeight = 0;
+    int 			width = 0;
+    int 			height = 0;
+    int 			size = 0;
+    WINDOW 			*scrn;
+    MENU			*menu;
+    ITEM 			**menu_items;
 };
 
 #endif /* !__hostmenu_H__ */
