@@ -64,10 +64,10 @@ void SSHConnector::Run()
 
 		switch( result ) 
 		{
-			case 0x271A: system( "clear" ); exit( 0 ); break;		/* exit */
-			case 0x2724: continue; break;								/* refresh */
-			case 0x272E: break; 										/* resize windows */
-			case 0x274C: ShowHelp(); break;								/* show help */
+			case 0x271A: system( "clear" ); exit( 0 ); break;   /* exit */
+			case 0x2724: continue; break;                       /* refresh */
+			case 0x272E: break;                                 /* resize windows */
+			case 0x274C: ShowHelp(); break;                     /* show help */
 			default:
 				if( size > 0 ) 
 				{
@@ -77,7 +77,7 @@ void SSHConnector::Run()
 				break;
 		}
 
-		delete cmd;
+		delete[] cmd;
 		delete list;
 	}
 }
@@ -89,7 +89,7 @@ SSHConnector::Log
 */
 void SSHConnector::Log( char *msg ) 
 {
-	// printf( "Log Message: %s\n", msg );
+	printf( "Log Message: %s\n", msg );
 }
 
 /*
