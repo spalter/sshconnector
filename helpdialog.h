@@ -2,7 +2,7 @@
 ===========================================================================
 
 SSHConnector
-Copyright (C) 2014 Spalt3r Development
+Copyright (C) 2024 Beardman Studios
 
 This file is part of sshconnector, distributed under the GNU GPL v2
 For full terms see the included COPYING file.
@@ -33,8 +33,8 @@ using namespace std;
 
 class HelpDialog {
 public:
-					HelpDialog();
-					~HelpDialog();
+                    HelpDialog();
+                    ~HelpDialog();
 	int				ShowDialog();
 	void			Initialize( char *file );
 private:

@@ -15,5 +15,7 @@
 # OSX
 *.dSYM
 
+# sshc
 sshconnector
 *.swp
+/build

@@ -1,25 +1,19 @@
 # sshconnector 
-
 Small ncurses SSH bookmark tool. Let you select hosts via a config file and connect them via the ssh command.
-## What is it?
 
-### Which systems?
-Only tested on linux/debian so far.
-
-### How to run?
+## Usage
 If you have installed the ncurses5 libraries, just type
 ```bash
 ./sshconnector «static host file» «user defined host file» «manual»
 ```
 
-### License?
-sshconnector, distributed under the GNU GPL v2. For full terms see the included COPYING file on the GitHub reposity.
+- `<<static host file>>` is basically a system wide `hosts.conf` for multi user environments.
+- `<<user defined host file>>` is a per user `hosts.conf` that is appended to the main first hosts list.
+- `<<manual>>` is a custom manual files that will be displayed in the application with the `h` key.
 
-### Pro tip?
-sshconnector works perfectly in a terminal multiplexer like tmux.
+> Note that the the first `hosts.conf` parameter is mandatory, the rest are optional paratmeters.
 
 ## Development
-
 ### Requirements
 - make
 - gcc `min std=c++11`

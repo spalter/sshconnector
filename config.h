@@ -2,7 +2,7 @@
 ===========================================================================
 
 SSHConnector
-Copyright (C) 2014 Spalt3r Development
+Copyright (C) 2024 Beardman Studios
 
 This file is part of sshconnector, distributed under the GNU GPL v2
 For full terms see the included COPYING file.
@@ -38,8 +38,8 @@ typedef struct t_host {
 
 class Config {
 public:
-					Config();
-					~Config();
+                    Config();
+                    ~Config();
 	void 			Initialize( char *file );
 	void			AppendList( char *file );
 	void			CopyToVectorList( vector<char*> &result );
