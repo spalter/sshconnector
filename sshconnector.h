@@ -34,18 +34,18 @@ class SSHConnector {
 public:
                     SSHConnector();
                     ~SSHConnector();
-    void			Run();
-    void			Action( char *cmd );
-    void			SetHostFile( char *file );
-    void			SetUserHostFile( char *file );
-    void			SetHelpFile( char *file );
-    static void		Log( char *msg );
+    void            Run();
+    void            Action( char *cmd );
+    void            SetHostFile( char *file );
+    void            SetUserHostFile( char *file );
+    void            SetHelpFile( char *file );
+    static void     Log( char *msg );
 
 private:
-    char			*hostfile;
-    char			*userHostFile;
-    char			*helpFile;
-    void			ShowHelp();
+    char            *hostfile;
+    char            *userHostFile;
+    char            *helpFile;
+    void            ShowHelp();
 };
 
 #endif /* !__sshconnector_H__ */
