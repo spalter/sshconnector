@@ -35,8 +35,8 @@ class HelpDialog {
 public:
                     HelpDialog();
                     ~HelpDialog();
-    int				ShowDialog();
-    void			Initialize( char *file );
+    int             ShowDialog();
+    void            Initialize( char *file );
 private:
     void            ShowWindow();
     void            Resize();

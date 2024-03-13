@@ -23,7 +23,7 @@ SSHConnector
 SSHConnector::SSHConnector
 =====================
 */
-SSHConnector::SSHConnector() 
+SSHConnector::SSHConnector()
 {
     hostfile = ( char * ) "\0";
     userHostFile = ( char * ) "\0";
@@ -34,7 +34,7 @@ SSHConnector::SSHConnector()
 SSHConnector::~SSHConnector
 =====================
 */
-SSHConnector::~SSHConnector() 
+SSHConnector::~SSHConnector()
 {
 
 }
@@ -44,9 +44,9 @@ SSHConnector::~SSHConnector()
 SSHConnector::Run
 =====================
 */
-void SSHConnector::Run() 
+void SSHConnector::Run()
 {
-    while ( true ) 
+    while ( true )
     {
         /* App stuff */
         auto hosts = Config();
@@ -62,14 +62,14 @@ void SSHConnector::Run()
         HostMenu scrn = HostMenu( list, size );
         result = scrn.ShowDialog();
 
-        switch( result ) 
+        switch( result )
         {
             case 0x271A: system( "clear" ); exit( 0 ); break;   /* exit */
             case 0x2724: continue; break;                       /* refresh */
             case 0x272E: break;                                 /* resize windows */
             case 0x274C: ShowHelp(); break;                     /* show help */
             default:
-                if( size > 0 ) 
+                if( size > 0 )
                 {
                     hosts.GetSshCommandById( cmd, result );
                     Action( cmd );
@@ -87,7 +87,7 @@ void SSHConnector::Run()
 SSHConnector::Log
 =====================
 */
-void SSHConnector::Log( char *msg ) 
+void SSHConnector::Log( char *msg )
 {
     printf( "Log Message: %s\n", msg );
 }
@@ -97,7 +97,7 @@ void SSHConnector::Log( char *msg )
 SSHConnector::Action
 =====================
 */
-void SSHConnector::Action( char *cmd ) 
+void SSHConnector::Action( char *cmd )
 {
     system ( "clear" );
     system ( "echo Connecting to server..." );
@@ -109,7 +109,7 @@ void SSHConnector::Action( char *cmd )
 SSHConnector::SetHostFile
 =====================
 */
-void SSHConnector::SetHostFile( char *file ) 
+void SSHConnector::SetHostFile( char *file )
 {
     hostfile = file;
 }
@@ -119,7 +119,7 @@ void SSHConnector::SetHostFile( char *file )
 SSHConnector::SetUserHostFile
 =====================
 */
-void SSHConnector::SetUserHostFile( char *file ) 
+void SSHConnector::SetUserHostFile( char *file )
 {
     userHostFile = file;
 }
@@ -129,7 +129,7 @@ void SSHConnector::SetUserHostFile( char *file )
 SSHConnector::SetHelpFile
 =====================
 */
-void SSHConnector::SetHelpFile( char *file ) 
+void SSHConnector::SetHelpFile( char *file )
 {
     helpFile = file;
 }
@@ -139,7 +139,7 @@ void SSHConnector::SetHelpFile( char *file )
 SSHConnector::ShowHelp
 =====================
 */
-void SSHConnector::ShowHelp() 
+void SSHConnector::ShowHelp()
 {
     auto help = HelpDialog();
     help.Initialize( helpFile );

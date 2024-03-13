@@ -24,7 +24,7 @@ HelpDialog
 HelpDialog::HelpDialog
 =====================
 */
-HelpDialog::HelpDialog() 
+HelpDialog::HelpDialog()
 {
 
 }
@@ -34,15 +34,15 @@ HelpDialog::HelpDialog()
 HelpDialog::~HelpDialog
 =====================
 */
-HelpDialog::~HelpDialog() 
+HelpDialog::~HelpDialog()
 {
     SSHConnector::Log( ( char* ) "Destory help dialog");
 
     int i;
-    for ( i = 0; i < size; i++ ) 
+    for ( i = 0; i < size; i++ )
     {
         free_item( menu_items[i] );
-    }	
+    }
 }
 
 /*
@@ -50,7 +50,7 @@ HelpDialog::~HelpDialog()
 HelpDialog::ShowDialog
 =====================
 */
-int HelpDialog::ShowDialog() 
+int HelpDialog::ShowDialog()
 {
     Start();
     int result = Loop();
@@ -64,13 +64,13 @@ int HelpDialog::ShowDialog()
 HelpDialog::Start
 =====================
 */
-void HelpDialog::Start() 
+void HelpDialog::Start()
 {
     /* ncruses stuff */
     clear();
-    initscr();									/* Start curses mode 		*/
-    cbreak();									/* Line buffering disabled	*/
-    keypad( stdscr , true );					/* F1, F2 etc..				*/
+    initscr();                /* Start curses mode 		    */
+    cbreak();                 /* Line buffering disabled	*/
+    keypad( stdscr , true );  /* F1, F2 etc..				      */
     noecho();
     curs_set( 0 );
 
@@ -82,7 +82,7 @@ void HelpDialog::Start()
 HelpDialog::Initialize
 =====================
 */
-void HelpDialog::Initialize( char *file  ) 
+void HelpDialog::Initialize( char *file  )
 {
     SSHConnector::Log( ( char* ) "Read manual" );
 
@@ -91,9 +91,9 @@ void HelpDialog::Initialize( char *file  )
     char line[255];
     vector<char*> items;
 
-    if( stream ) 
+    if( stream )
     {
-        while ( stream ) 
+        while ( stream )
         {
             stream.getline( line, 255 );
             char *out = new char[ strlen(line) + 1];
@@ -102,8 +102,8 @@ void HelpDialog::Initialize( char *file  )
         }
 
         stream.close();
-    } 
-    else 
+    }
+    else
     {
         SSHConnector::Log( ( char* ) "Manual not found!" );
     }
@@ -116,7 +116,7 @@ void HelpDialog::Initialize( char *file  )
 HelpDialog::Loop
 =====================
 */
-int HelpDialog::Loop() 
+int HelpDialog::Loop()
 {
     refresh();
 
@@ -130,20 +130,20 @@ int HelpDialog::Loop()
 
     ShowWindow();
 
-    while ( true ) 
+    while ( true )
     {
         int pressed_key;
         int cols, rows;
         getmaxyx( stdscr, rows, cols );
 
-        if( rows != screenHeight || cols != screenWidth ) 
+        if( rows != screenHeight || cols != screenWidth )
         {
             Resize();
         }
 
         pressed_key = wgetch( stdscr );
 
-        switch( pressed_key ) 
+        switch( pressed_key )
         {
             case KEY_UP: OneStepUp(); break;
             case KEY_DOWN: OneStepDown(); break;
@@ -152,7 +152,7 @@ int HelpDialog::Loop()
             case 'q': SetStatuslabel( ( char* ) "Quiting..." ); return 0;
             default: break;
         }
-        
+
         ShowWindow();
         wrefresh( scrn );
     }
@@ -163,10 +163,10 @@ int HelpDialog::Loop()
 HelpDialog::ShowWindow
 =====================
 */
-void HelpDialog::ShowWindow() 
+void HelpDialog::ShowWindow()
 {
     box( scrn, 0, 0 );
-    
+
     ShowTitle();
     ShowHintLabel();
     SetStatuslabel( ( char* ) "Help" );
@@ -178,7 +178,7 @@ void HelpDialog::ShowWindow()
 HelpDialog::Close
 =====================
 */
-void HelpDialog::Close() 
+void HelpDialog::Close()
 {
     clear();
     curs_set( 1 );
@@ -195,7 +195,7 @@ void HelpDialog::Close()
 HelpDialog::CalcualteBounds
 =====================
 */
-void HelpDialog::CalcualteBounds() 
+void HelpDialog::CalcualteBounds()
 {
     /* calculates the screen view */
     int spaceH = 15;
@@ -215,7 +215,7 @@ void HelpDialog::CalcualteBounds()
 HelpDialog::Resize
 =====================
 */
-void HelpDialog::Resize() 
+void HelpDialog::Resize()
 {
     Close();
     Start();
@@ -238,9 +238,9 @@ void HelpDialog::Resize()
 HelpDialog::ShowTitle
 =====================
 */
-void HelpDialog::ShowTitle() 
+void HelpDialog::ShowTitle()
 {
-    char name[] = "SSHConnector v0.4";
+    char name[] = "SSHConnector v0.5";
     mvprintw( ( 1 ) , ( screenWidth / 2 ) - ( strlen( name ) / 2 ), name );
 }
 
@@ -249,9 +249,9 @@ void HelpDialog::ShowTitle()
 HelpDialog::ShowHintLabel
 =====================
 */
-void HelpDialog::ShowHintLabel() 
+void HelpDialog::ShowHintLabel()
 {
-    mvwprintw( scrn, height - 1, 4, "| [ ]Exit |" );
+    mvwprintw( scrn, height - 1, 4, "| [ ]Back |" );
     mvwaddch( scrn , height - 1, 7, 'q' | A_BOLD );
 }
 
@@ -260,7 +260,7 @@ void HelpDialog::ShowHintLabel()
 HelpDialog::SetStatuslabel
 =====================
 */
-void HelpDialog::SetStatuslabel( char *msg ) 
+void HelpDialog::SetStatuslabel( char *msg )
 {
     mvwprintw( scrn, height - 1, width - 8 - strlen( msg ), "| %s |", msg );
 }
@@ -270,7 +270,7 @@ void HelpDialog::SetStatuslabel( char *msg )
 HelpDialog::GenerateMenu
 =====================
 */
-void HelpDialog::GenerateMenu( vector<char*> &items ) 
+void HelpDialog::GenerateMenu( vector<char*> &items )
 {
     int i;
     this->size = items.size();
@@ -285,7 +285,7 @@ void HelpDialog::GenerateMenu( vector<char*> &items )
 HelpDialog::OneStepUp
 =====================
 */
-void HelpDialog::OneStepUp() 
+void HelpDialog::OneStepUp()
 {
     menu_driver( menu, REQ_UP_ITEM );
 }
@@ -295,7 +295,7 @@ void HelpDialog::OneStepUp()
 HelpDialog::OneStepDown
 =====================
 */
-void HelpDialog::OneStepDown() 
+void HelpDialog::OneStepDown()
 {
     menu_driver( menu, REQ_DOWN_ITEM );
 }
@@ -305,7 +305,7 @@ void HelpDialog::OneStepDown()
 HelpDialog::PageUp
 =====================
 */
-void HelpDialog::PageUp() 
+void HelpDialog::PageUp()
 {
     menu_driver( menu, REQ_SCR_UPAGE );
 }
@@ -315,7 +315,7 @@ void HelpDialog::PageUp()
 HelpDialog::PageDown
 =====================
 */
-void HelpDialog::PageDown() 
+void HelpDialog::PageDown()
 {
     menu_driver( menu, REQ_SCR_DPAGE );
 }

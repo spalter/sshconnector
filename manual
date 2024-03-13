@@ -3,4 +3,9 @@ Copyright (C) 2024 Beardman Studios
 
 Help File
 ===========================
-Press q - to exit the ssh connector application
+[q] to exit the ssh connector application
+[j] to move cursor down
+[k] to move cursor up
+[h] to show the help
+[r] to reload the host files
+[return] to connect to the selected host

@@ -50,7 +50,7 @@ private:
     void            SetStatuslabel( char *msg );
     void            Screen();
     int             GetItem();
-    char             *ToCharArray( string &value );
+    char            *ToCharArray( string &value );
 
     int             startPosX =     0;
     int             startPosY =     0;
