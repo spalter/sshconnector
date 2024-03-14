@@ -50,7 +50,7 @@ int main( int argc, char** argv )
         cout << "Missing configuration files" << endl;
         cout << "Usage: sshconnector hosts.conf userhosts.conf [helpfile.txt]" << endl;
         cout << endl;
-        cout << "sshconnector version 0.5, Copyright (C) 2024  Spalt3r Development" << endl;
+        cout << APP_TITLE <<", Copyright (C) 2024  Spalt3r Development" << endl;
         cout << "sshconnector comes with ABSOLUTELY NO WARRANTY;" << endl;
         cout << "This is free software, and you are welcome" << endl;
         cout << "to redistribute it under certain conditions;" << endl;

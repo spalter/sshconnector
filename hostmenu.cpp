@@ -165,9 +165,9 @@ void HostMenu::Initialize()
 
     /* ncruses stuff */
     clear();
-    initscr();												/* Start curses mode 		*/
-    cbreak();												/* Line buffering disabled	*/
-    keypad( stdscr , true );								/* F1, F2 etc..				*/
+    initscr();                /* Start curses mode 		*/
+    cbreak();                 /* Line buffering disabled	*/
+    keypad( stdscr , true );  /* F1, F2 etc..				*/
     noecho();
     curs_set( 0 );
 
@@ -237,8 +237,7 @@ HostMenu::ShowTitle
 */
 void HostMenu::ShowTitle()
 {
-    char name[] = "SSHConnector v0.5";
-    mvprintw( ( 1 ) , ( screenWidth / 2 ) - ( strlen( name ) / 2 ), name );
+    mvprintw( ( 1 ) , ( screenWidth / 2 ) - ( strlen( APP_TITLE ) / 2 ), APP_TITLE );
 }
 
 /*

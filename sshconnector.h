@@ -30,6 +30,8 @@ SSHConnector
 
 using namespace std;
 
+const char APP_TITLE[] = "SSHConnector v0.6";
+
 class SSHConnector {
 public:
                     SSHConnector();
