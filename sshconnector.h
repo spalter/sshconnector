@@ -22,9 +22,7 @@ SSHConnector
 */
 
 #include <stdio.h>
-
 #include <vector>
-
 #include "config.h"
 #include "helpdialog.h"
 #include "hostmenu.h"

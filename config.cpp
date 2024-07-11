@@ -11,7 +11,6 @@ For full terms see the included COPYING file.
 */
 
 #include "config.h"
-
 #include "sshconnector.h"
 
 /***********************************************************************

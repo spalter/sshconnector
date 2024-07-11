@@ -24,3 +24,4 @@ SpacesInParensOptions:
 SpaceInEmptyParentheses: false
 SpacesInParentheses: true
 SpacesBeforeTrailingComments: 1
+IncludeBlocks: Preserve

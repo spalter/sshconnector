@@ -23,9 +23,7 @@ HostMenu
 
 #include <menu.h>
 #include <ncurses.h>
-
 #include <string>
-
 #include "vector"
 
 #define KEY_ESCAPE 27

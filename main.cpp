@@ -11,7 +11,6 @@ For full terms see the included COPYING file.
 */
 
 #include "main.h"
-
 #include <stdio.h>
 
 using namespace std;

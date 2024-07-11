@@ -11,7 +11,6 @@ For full terms see the included COPYING file.
 */
 
 #include "hostmenu.h"
-
 #include "sshconnector.h"
 
 /***********************************************************************
