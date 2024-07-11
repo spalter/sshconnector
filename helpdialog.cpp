@@ -11,6 +11,7 @@ For full terms see the included COPYING file.
 */
 
 #include "helpdialog.h"
+
 #include "sshconnector.h"
 
 /***********************************************************************
@@ -26,7 +27,6 @@ HelpDialog::HelpDialog
 */
 HelpDialog::HelpDialog()
 {
-
 }
 
 /*
@@ -36,7 +36,7 @@ HelpDialog::~HelpDialog
 */
 HelpDialog::~HelpDialog()
 {
-    SSHConnector::Log( ( char* ) "Destory help dialog");
+    SSHConnector::Log( ( char * ) "Destory help dialog" );
 
     int i;
     for ( i = 0; i < size; i++ )
@@ -68,9 +68,9 @@ void HelpDialog::Start()
 {
     /* ncruses stuff */
     clear();
-    initscr();                /* Start curses mode 		    */
-    cbreak();                 /* Line buffering disabled	*/
-    keypad( stdscr , true );  /* F1, F2 etc..				      */
+    initscr();              /* Start curses mode 		    */
+    cbreak();               /* Line buffering disabled	*/
+    keypad( stdscr, true ); /* F1, F2 etc..				      */
     noecho();
     curs_set( 0 );
 
@@ -82,22 +82,22 @@ void HelpDialog::Start()
 HelpDialog::Initialize
 =====================
 */
-void HelpDialog::Initialize( char *file  )
+void HelpDialog::Initialize( char *file )
 {
-    SSHConnector::Log( ( char* ) "Read manual" );
+    SSHConnector::Log( ( char * ) "Read manual" );
 
     filename = file;
     ifstream stream( filename );
     char line[255];
-    vector<char*> items;
+    vector<char *> items;
 
-    if( stream )
+    if ( stream )
     {
         while ( stream )
         {
             stream.getline( line, 255 );
-            char *out = new char[ strlen(line) + 1];
-            strncpy( out, line, strlen(line) + 1 );
+            char *out = new char[strlen( line ) + 1];
+            strncpy( out, line, strlen( line ) + 1 );
             items.push_back( out );
         }
 
@@ -105,7 +105,7 @@ void HelpDialog::Initialize( char *file  )
     }
     else
     {
-        SSHConnector::Log( ( char* ) "Manual not found!" );
+        SSHConnector::Log( ( char * ) "Manual not found!" );
     }
 
     GenerateMenu( items );
@@ -124,7 +124,7 @@ int HelpDialog::Loop()
     menu = new_menu( menu_items );
     set_menu_win( menu, scrn );
     set_menu_sub( menu, derwin( scrn, height - 2, width - 10, 2, 1 ) );
-    set_menu_format( menu, height - 4 , 1 );
+    set_menu_format( menu, height - 4, 1 );
     set_menu_mark( menu, " " );
     post_menu( menu );
 
@@ -136,21 +136,32 @@ int HelpDialog::Loop()
         int cols, rows;
         getmaxyx( stdscr, rows, cols );
 
-        if( rows != screenHeight || cols != screenWidth )
+        if ( rows != screenHeight || cols != screenWidth )
         {
             Resize();
         }
 
         pressed_key = wgetch( stdscr );
 
-        switch( pressed_key )
+        switch ( pressed_key )
         {
-            case KEY_UP: OneStepUp(); break;
-            case KEY_DOWN: OneStepDown(); break;
-            case KEY_PPAGE: PageUp(); break;
-            case KEY_NPAGE: PageDown(); break;
-            case 'q': SetStatuslabel( ( char* ) "Quiting..." ); return 0;
-            default: break;
+            case KEY_UP:
+                OneStepUp();
+                break;
+            case KEY_DOWN:
+                OneStepDown();
+                break;
+            case KEY_PPAGE:
+                PageUp();
+                break;
+            case KEY_NPAGE:
+                PageDown();
+                break;
+            case 'q':
+                SetStatuslabel( ( char * ) "Quiting..." );
+                return 0;
+            default:
+                break;
         }
 
         ShowWindow();
@@ -169,7 +180,7 @@ void HelpDialog::ShowWindow()
 
     ShowTitle();
     ShowHintLabel();
-    SetStatuslabel( ( char* ) "Help" );
+    SetStatuslabel( ( char * ) "Help" );
     wrefresh( scrn );
 }
 
@@ -183,7 +194,7 @@ void HelpDialog::Close()
     clear();
     curs_set( 1 );
     echo();
-    endwin();			/* End curses mode */
+    endwin(); /* End curses mode */
 
     unpost_menu( menu );
     free_menu( menu );
@@ -201,7 +212,7 @@ void HelpDialog::CalcualteBounds()
     int spaceH = 15;
     int spaceW = 10;
 
-    getmaxyx( stdscr, screenHeight, screenWidth );		/* get the boundaries of the screeen */
+    getmaxyx( stdscr, screenHeight, screenWidth ); /* get the boundaries of the screeen */
 
     width = screenWidth - ( screenWidth * spaceW / 100 );
     height = screenHeight - ( screenHeight * spaceH / 100 );
@@ -225,7 +236,7 @@ void HelpDialog::Resize()
     menu = new_menu( menu_items );
     set_menu_win( menu, scrn );
     set_menu_sub( menu, derwin( scrn, height - 2, width - 10, 1, 1 ) );
-    set_menu_format( menu, height - 2 , 1 );
+    set_menu_format( menu, height - 2, 1 );
     set_menu_mark( menu, "" );
     post_menu( menu );
 
@@ -240,7 +251,7 @@ HelpDialog::ShowTitle
 */
 void HelpDialog::ShowTitle()
 {
-    mvprintw( ( 1 ) , ( screenWidth / 2 ) - ( strlen( APP_TITLE ) / 2 ), APP_TITLE );
+    mvprintw( ( 1 ), ( screenWidth / 2 ) - ( strlen( APP_TITLE ) / 2 ), APP_TITLE );
 }
 
 /*
@@ -251,7 +262,7 @@ HelpDialog::ShowHintLabel
 void HelpDialog::ShowHintLabel()
 {
     mvwprintw( scrn, height - 1, 4, "| [ ]Back |" );
-    mvwaddch( scrn , height - 1, 7, 'q' | A_BOLD );
+    mvwaddch( scrn, height - 1, 7, 'q' | A_BOLD );
 }
 
 /*
@@ -269,12 +280,13 @@ void HelpDialog::SetStatuslabel( char *msg )
 HelpDialog::GenerateMenu
 =====================
 */
-void HelpDialog::GenerateMenu( vector<char*> &items )
+void HelpDialog::GenerateMenu( vector<char *> &items )
 {
     int i;
     this->size = items.size();
-    menu_items = ( ITEM ** ) calloc ( size + 1, sizeof( ITEM * ) );
-    for ( i = 0; i < size ; i++ ) {
+    menu_items = ( ITEM ** ) calloc( size + 1, sizeof( ITEM * ) );
+    for ( i = 0; i < size; i++ )
+    {
         menu_items[i] = new_item( " ", items[i] );
     }
 }

@@ -21,41 +21,45 @@ config
 ===============================================================================
 */
 
-#include <iostream>
-#include <fstream>
 #include <string.h>
-#include <vector>
+
+#include <fstream>
+#include <iostream>
 #include <sstream>
+#include <vector>
 
 using namespace std;
 
-typedef struct t_host {
+typedef struct t_host
+{
     string name;
     string host;
     string port;
     string user;
 } t_host;
 
-class Config {
+class Config
+{
 public:
-                    Config();
-                    ~Config();
-    void            Initialize( char *file );
-    void            AppendList( char *file );
-    void            CopyToVectorList( vector<char*> &result );
-    void            GetSshCommandById( char *cmd, int index );
-    int             CopyToCharArray( char** &result );
-    vector<t_host>  GetHosts();
-private:
-    void            ReadConfig();
-    void            SplitLine( char *line );
-    vector<string>  &Split( const string &str, char delimeter, vector<string> &items );
-    vector<string>  Split( const string &str, char delimeter );
-    char            *ToCharArray( string &value );
-    void            BuildHostLine( char *line, string &name, string &host, string &port, string &user );
+    Config();
+    ~Config();
+    void Initialize( char *file );
+    void AppendList( char *file );
+    void CopyToVectorList( vector<char *> &result );
+    void GetSshCommandById( char *cmd, int index );
+    int CopyToCharArray( char **&result );
+    vector<t_host> GetHosts();
 
-    char            *filename;
-    vector<t_host>  hosts;
+private:
+    void ReadConfig();
+    void SplitLine( char *line );
+    vector<string> &Split( const string &str, char delimeter, vector<string> &items );
+    vector<string> Split( const string &str, char delimeter );
+    char *ToCharArray( string &value );
+    void BuildHostLine( char *line, string &name, string &host, string &port, string &user );
+
+    char *filename;
+    vector<t_host> hosts;
 };
 
 #endif /* !__config_H__ */

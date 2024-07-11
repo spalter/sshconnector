@@ -36,7 +36,6 @@ SSHConnector::~SSHConnector
 */
 SSHConnector::~SSHConnector()
 {
-
 }
 
 /*
@@ -54,7 +53,7 @@ void SSHConnector::Run()
         hosts.Initialize( hostfile );
         hosts.AppendList( userHostFile );
 
-        char** list;
+        char **list;
         char *cmd = new char[255];
         int size = hosts.CopyToCharArray( list );
         int result = 0;
@@ -62,14 +61,22 @@ void SSHConnector::Run()
         HostMenu scrn = HostMenu( list, size );
         result = scrn.ShowDialog();
 
-        switch( result )
+        switch ( result )
         {
-            case 0x271A: system( "clear" ); exit( 0 ); break;   /* exit */
-            case 0x2724: continue; break;                       /* refresh */
-            case 0x272E: break;                                 /* resize windows */
-            case 0x274C: ShowHelp(); break;                     /* show help */
+            case 0x271A:
+                system( "clear" );
+                exit( 0 );
+                break; /* exit */
+            case 0x2724:
+                continue;
+                break; /* refresh */
+            case 0x272E:
+                break; /* resize windows */
+            case 0x274C:
+                ShowHelp();
+                break; /* show help */
             default:
-                if( size > 0 )
+                if ( size > 0 )
                 {
                     hosts.GetSshCommandById( cmd, result );
                     Action( cmd );
@@ -99,9 +106,9 @@ SSHConnector::Action
 */
 void SSHConnector::Action( char *cmd )
 {
-    system ( "clear" );
-    system ( "echo Connecting to server..." );
-    system ( cmd );
+    system( "clear" );
+    system( "echo Connecting to server..." );
+    system( cmd );
 }
 
 /*

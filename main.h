@@ -23,6 +23,6 @@ main
 
 #include "sshconnector.h"
 
-int	main( int argc, char** argv );
+int main( int argc, char **argv );
 
 #endif /* !__main_H__ */

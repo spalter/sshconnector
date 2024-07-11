@@ -1,0 +1,26 @@
+Language: Cpp
+BasedOnStyle: Google
+IndentWidth: 4
+UseTab: Never
+TabWidth: 4
+ColumnLimit: 0
+DerivePointerAlignment: false
+PointerAlignment: Right
+AccessModifierOffset: -4
+BreakBeforeBraces: Allman
+SpaceAfterCStyleCast: true
+SpaceInEmptyBlock: true
+SpaceBeforeRangeBasedForLoopColon: true
+SpaceBeforeParens: Custom
+SpaceBeforeParensOptions:
+  AfterControlStatements: true
+  AfterFunctionDefinitionName: false
+SpacesInParens: Custom
+SpacesInParensOptions:
+  InConditionalStatements: true
+  InEmptyParentheses: false
+  InCStyleCasts: true
+  Other: true
+SpaceInEmptyParentheses: false
+SpacesInParentheses: true
+SpacesBeforeTrailingComments: 1

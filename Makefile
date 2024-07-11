@@ -8,15 +8,21 @@ LDFLAGS = -lm
 FRAMEWORKS = -lncurses -lmenu -lform
 FILE = *.cpp
 BUILDDIR = build
+SOURCEDIR = .
 
-all: *.cpp
-	echo Start baking SSHConector
+all: clean format *.cpp
+	echo "Start baking SSHConector"
 	mkdir -p $(BUILDDIR)
 	$(CPP) $(CPPFLAGS) -o $(BUILDDIR)/sshconnector $(FILE) $(LDFLAGS) $(FRAMEWORKS)
 
-normal: *.cpp
-	mkdir -p $(BUILDDIR)
-	$(CPP) $(CPPFLAGS) -o $(BUILDDIR)/sshconnector $(FILE) $(LDFLAGS)
-
 clean:
 	rm -rf $(BUILDDIR)/sshconnector
+
+run: all
+	echo "Run SSHConector"
+	./$(BUILDDIR)/sshconnector ~/.config/sshc/hosts.conf
+
+format:
+	echo "Format Source Files"
+	clang-format -i $(SOURCEDIR)/*.cpp
+	clang-format -i $(SOURCEDIR)/*.h

@@ -11,6 +11,7 @@ For full terms see the included COPYING file.
 */
 
 #include "hostmenu.h"
+
 #include "sshconnector.h"
 
 /***********************************************************************
@@ -24,15 +25,15 @@ HostMenu
 HostMenu::HostMenu
 =====================
 */
-HostMenu::HostMenu( char** &items, int size )
+HostMenu::HostMenu( char **&items, int size )
 {
     this->size = size;
-    menu_items = ( ITEM ** ) calloc ( this->size + 1, sizeof( ITEM * ) );
+    menu_items = ( ITEM ** ) calloc( this->size + 1, sizeof( ITEM * ) );
 
-    for ( int i = 0; i < this->size ; i++ )
+    for ( int i = 0; i < this->size; i++ )
     {
         string str = to_string( i );
-        str.append(": ");
+        str.append( ": " );
         char *host = ToCharArray( str );
         menu_items[i] = new_item( host, items[i] );
     }
@@ -47,7 +48,7 @@ HostMenu::~HostMenu
 */
 HostMenu::~HostMenu()
 {
-    SSHConnector::Log( ( char* ) "Destory host menu");
+    SSHConnector::Log( ( char * ) "Destory host menu" );
 }
 
 /*
@@ -85,7 +86,7 @@ void HostMenu::CloseDialog()
     clear();
     curs_set( 1 );
     echo();
-    endwin();			/* End ncurses mode */
+    endwin(); /* End ncurses mode */
 
     unpost_menu( menu );
     free_menu( menu );
@@ -112,13 +113,13 @@ int HostMenu::Loop()
     menu = new_menu( menu_items );
     set_menu_win( menu, scrn );
     set_menu_sub( menu, derwin( scrn, height - 4, width - 10, 2, 1 ) );
-    set_menu_format( menu, height - 4 , 1 );
+    set_menu_format( menu, height - 4, 1 );
     set_menu_mark( menu, " * " );
     post_menu( menu );
 
-    if( size == 0 )
+    if ( size == 0 )
     {
-        SetStatuslabel( ( char* ) "No hosts found" );
+        SetStatuslabel( ( char * ) "No hosts found" );
     }
 
     ShowMenu();
@@ -129,25 +130,51 @@ int HostMenu::Loop()
         int cols, rows;
         getmaxyx( stdscr, rows, cols );
 
-        if( rows != screenHeight || cols != screenWidth ) {
+        if ( rows != screenHeight || cols != screenWidth )
+        {
             return 0x272E;
         }
 
         pressed_key = wgetch( stdscr );
 
-        switch( pressed_key ) {
-            case KEY_UP: OneStepUp(); break;
-            case 'k': OneStepUp(); break;
-            case KEY_DOWN: OneStepDown(); break;
-            case 'j': OneStepDown(); break;
-            case KEY_PPAGE: PageUp(); break;
-            case KEY_NPAGE: PageDown(); break;
-            case 'q': SetStatuslabel( ( char* ) "Quiting..." ); return 0x271A;
-            case 'r': SetStatuslabel( ( char* ) "Refreshing..." ); return 0x2724;
-            case 'h': SetStatuslabel( ( char* ) "Help..." ); return 0x274C;
-            case KEY_RETURN: SetStatuslabel( ( char* ) "Connecting..." ); return GetItem();
-            case 'l': SetStatuslabel( ( char* ) "Connecting..." ); return GetItem();
-            default: refresh(); break;
+        switch ( pressed_key )
+        {
+            case KEY_UP:
+                OneStepUp();
+                break;
+            case 'k':
+                OneStepUp();
+                break;
+            case KEY_DOWN:
+                OneStepDown();
+                break;
+            case 'j':
+                OneStepDown();
+                break;
+            case KEY_PPAGE:
+                PageUp();
+                break;
+            case KEY_NPAGE:
+                PageDown();
+                break;
+            case 'q':
+                SetStatuslabel( ( char * ) "Quiting..." );
+                return 0x271A;
+            case 'r':
+                SetStatuslabel( ( char * ) "Refreshing..." );
+                return 0x2724;
+            case 'h':
+                SetStatuslabel( ( char * ) "Help..." );
+                return 0x274C;
+            case KEY_RETURN:
+                SetStatuslabel( ( char * ) "Connecting..." );
+                return GetItem();
+            case 'l':
+                SetStatuslabel( ( char * ) "Connecting..." );
+                return GetItem();
+            default:
+                refresh();
+                break;
         }
 
         ShowMenu();
@@ -161,13 +188,13 @@ HostMenu::Initialize
 */
 void HostMenu::Initialize()
 {
-    SSHConnector::Log( ( char* ) "Initialize host menu");
+    SSHConnector::Log( ( char * ) "Initialize host menu" );
 
     /* ncruses stuff */
     clear();
-    initscr();                /* Start curses mode 		*/
-    cbreak();                 /* Line buffering disabled	*/
-    keypad( stdscr , true );  /* F1, F2 etc..				*/
+    initscr();              /* Start curses mode 		*/
+    cbreak();               /* Line buffering disabled	*/
+    keypad( stdscr, true ); /* F1, F2 etc..				*/
     noecho();
     curs_set( 0 );
 
@@ -181,7 +208,7 @@ void HostMenu::Screen()
     int spaceH = 15;
     int spaceW = 10;
 
-    getmaxyx( stdscr, screenHeight, screenWidth );		/* get the bounds of the screeen */
+    getmaxyx( stdscr, screenHeight, screenWidth ); /* get the bounds of the screeen */
 
     width = screenWidth - ( screenWidth * spaceW / 100 );
     height = screenHeight - ( screenHeight * spaceH / 100 );
@@ -237,7 +264,7 @@ HostMenu::ShowTitle
 */
 void HostMenu::ShowTitle()
 {
-    mvprintw( ( 1 ) , ( screenWidth / 2 ) - ( strlen( APP_TITLE ) / 2 ), APP_TITLE );
+    mvprintw( ( 1 ), ( screenWidth / 2 ) - ( strlen( APP_TITLE ) / 2 ), APP_TITLE );
 }
 
 /*
@@ -251,13 +278,13 @@ void HostMenu::ShowMenu()
 
     ShowHintLabel();
 
-    if( size > 0 )
+    if ( size > 0 )
     {
-        SetStatuslabel( ( char* ) "Ready" );
+        SetStatuslabel( ( char * ) "Ready" );
     }
     else
     {
-        SetStatuslabel( ( char* ) "No hosts found" );
+        SetStatuslabel( ( char * ) "No hosts found" );
     }
 
     wrefresh( scrn );
@@ -272,15 +299,15 @@ void HostMenu::ShowHintLabel()
 {
     mvwprintw( scrn, height - 1, 4, "| [ ]Exit [ ]Refresh [      ]Select [ ]Help |" );
 
-    mvwaddch( scrn , height - 1, 7, 'q' | A_BOLD );
-    mvwaddch( scrn , height - 1, 15, 'r' | A_BOLD );
-    mvwaddch( scrn , height - 1, 26, 'R' | A_BOLD );
-    mvwaddch( scrn , height - 1, 27, 'e' | A_BOLD );
-    mvwaddch( scrn , height - 1, 28, 't' | A_BOLD );
-    mvwaddch( scrn , height - 1, 29, 'u' | A_BOLD );
-    mvwaddch( scrn , height - 1, 30, 'r' | A_BOLD );
-    mvwaddch( scrn , height - 1, 31, 'n' | A_BOLD );
-    mvwaddch( scrn , height - 1, 41, 'h' | A_BOLD );
+    mvwaddch( scrn, height - 1, 7, 'q' | A_BOLD );
+    mvwaddch( scrn, height - 1, 15, 'r' | A_BOLD );
+    mvwaddch( scrn, height - 1, 26, 'R' | A_BOLD );
+    mvwaddch( scrn, height - 1, 27, 'e' | A_BOLD );
+    mvwaddch( scrn, height - 1, 28, 't' | A_BOLD );
+    mvwaddch( scrn, height - 1, 29, 'u' | A_BOLD );
+    mvwaddch( scrn, height - 1, 30, 'r' | A_BOLD );
+    mvwaddch( scrn, height - 1, 31, 'n' | A_BOLD );
+    mvwaddch( scrn, height - 1, 41, 'h' | A_BOLD );
 }
 
 /*

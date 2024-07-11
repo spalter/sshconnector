@@ -11,6 +11,7 @@ For full terms see the included COPYING file.
 */
 
 #include "config.h"
+
 #include "sshconnector.h"
 
 /***********************************************************************
@@ -26,7 +27,6 @@ Config::Config
 */
 Config::Config()
 {
-
 }
 
 /*
@@ -36,7 +36,7 @@ Config::~Config
 */
 Config::~Config()
 {
-    SSHConnector::Log( ( char* ) "Destroy configuration");
+    SSHConnector::Log( ( char * ) "Destroy configuration" );
     // Todo: Clean up hosts properly
 }
 
@@ -47,7 +47,7 @@ Config::Initialize
 */
 void Config::Initialize( char *file )
 {
-    SSHConnector::Log( ( char* ) "Initialize host configuration" );
+    SSHConnector::Log( ( char * ) "Initialize host configuration" );
     filename = file;
     ReadConfig();
 }
@@ -59,7 +59,7 @@ Config::AppendList
 */
 void Config::AppendList( char *file )
 {
-    SSHConnector::Log( ( char* ) "Append host configuration" );
+    SSHConnector::Log( ( char * ) "Append host configuration" );
     filename = file;
     ReadConfig();
 }
@@ -81,17 +81,17 @@ Config::ReadConfig
 */
 void Config::ReadConfig()
 {
-    SSHConnector::Log( ( char* ) "Read configuration" );
+    SSHConnector::Log( ( char * ) "Read configuration" );
 
     ifstream stream( filename );
     char line[255];
 
-    if(stream)
+    if ( stream )
     {
         while ( stream )
         {
             stream.getline( line, 255 );
-            if( line[0] != '#' && strlen( line ) > 0 )
+            if ( line[0] != '#' && strlen( line ) > 0 )
             {
                 SplitLine( line );
             }
@@ -101,7 +101,7 @@ void Config::ReadConfig()
     }
     else
     {
-        SSHConnector::Log( ( char* ) "File not found!" );
+        SSHConnector::Log( ( char * ) "File not found!" );
     }
 }
 
@@ -113,7 +113,7 @@ Config::SplitLine
 void Config::SplitLine( char *line )
 {
     const char delimeter = ';';
-    char *check = ( char* ) memchr (line, delimeter, strlen(line));
+    char *check = ( char * ) memchr( line, delimeter, strlen( line ) );
 
     if ( check != NULL )
     {
@@ -122,7 +122,7 @@ void Config::SplitLine( char *line )
 
         vector<string> result = Split( string_line, delimeter );
 
-        if( result.size() == 4 )
+        if ( result.size() == 4 )
         {
             t_host host = { result[0], result[1], result[2], result[3] };
             hosts.push_back( host );
@@ -164,14 +164,14 @@ vector<string> Config::Split( const std::string &str, char delimeter )
 Config::CopyToVectorList
 =====================
 */
-void Config::CopyToVectorList( vector<char*> &result )
+void Config::CopyToVectorList( vector<char *> &result )
 {
     auto list = GetHosts();
 
     unsigned int i;
     for ( i = 0; i < list.size(); i++ )
     {
-        char *item = ( char* ) "";
+        char *item = ( char * ) "";
         BuildHostLine( item, list[i].name, list[i].host, list[i].port, list[i].user );
         result.push_back( item );
     }
@@ -182,7 +182,7 @@ void Config::CopyToVectorList( vector<char*> &result )
 Config::CopyToCharArray
 =====================
 */
-int Config::CopyToCharArray( char** &result )
+int Config::CopyToCharArray( char **&result )
 {
     auto list = GetHosts();
     result = new char *[list.size()];
@@ -190,8 +190,8 @@ int Config::CopyToCharArray( char** &result )
     unsigned int i;
     for ( i = 0; i < list.size(); i++ )
     {
-        result[i] = new char [255];
-        char *item = new char [255];
+        result[i] = new char[255];
+        char *item = new char[255];
         BuildHostLine( item, list[i].name, list[i].host, list[i].port, list[i].user );
         strncpy( result[i], item, strlen( item ) + 1 );
     }
@@ -218,13 +218,13 @@ Config::GetSshCommandById
 */
 void Config::GetSshCommandById( char *cmd, int index )
 {
-    char * item_host = new char[hosts[index].host.length() + 1];
+    char *item_host = new char[hosts[index].host.length() + 1];
     strncpy( item_host, hosts[index].host.c_str(), hosts[index].host.length() + 1 );
 
-    char * item_port = new char[hosts[index].port.length() + 1];
+    char *item_port = new char[hosts[index].port.length() + 1];
     strncpy( item_port, hosts[index].port.c_str(), hosts[index].port.length() + 1 );
 
-    char * item_user = new char[hosts[index].user.length() + 1];
+    char *item_user = new char[hosts[index].user.length() + 1];
     strncpy( item_user, hosts[index].user.c_str(), hosts[index].user.length() + 1 );
 
     strcpy( cmd, "ssh " );
