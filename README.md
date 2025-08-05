@@ -1,8 +1,11 @@
 # sshconnector
+
 Small ncurses SSH bookmark tool. Let you select hosts via a config file and connect them via the ssh command.
 
 ## Usage
+
 If you have installed the ncurses5 libraries, just type
+
 ```bash
 ./sshconnector «static host file» «user defined host file» «manual»
 ```
@@ -14,15 +17,16 @@ If you have installed the ncurses5 libraries, just type
 > Note that the the first `hosts.conf` parameter is mandatory, the rest are optional paratmeters.
 
 ## Development
+
 ### Requirements
+
 - make
 - g++ `min std=c++11`
 - libncurses5-dev
+- clang-format
 
 ### Build
+
 ```bash
 make
 ```
-
-# Credits
-> Beardman Studios (c) 2024

@@ -2,7 +2,7 @@
 ===========================================================================
 
 SSHConnector
-Copyright (C) 2024 Beardman Studios
+Copyright (C) 2024 spalter
 
 This file is part of sshconnector, distributed under the GNU GPL v2
 For full terms see the included COPYING file.
